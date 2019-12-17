@@ -35,6 +35,12 @@
 
       <section class="paging">
   
+    <div class="left">
+      <a href="/2019/12/16/java-thread-analyse/">
+        ‹
+      </a>
+    </div>
+  
   
     <div class="right">
       <a href="/2019/12/15/LinkedList-source-code-analyse/">
@@ -173,6 +179,11 @@
 <blockquote>
 <p>1.8 在 1.7 的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（<code>O(logn)</code>），甚至取消了 ReentrantLock 改为了 synchronized，这样可以看出在新版的 JDK 中对 synchronized 优化是很到位的。</p>
 </blockquote>
+<p>为什么 ConcurrentHashMap 和 HashTable 的key和 value不能为空，而HashMap却可以，这么设计的原因是什么呢？</p>
+<p>  跟并发有关系，我们知道 ConcurrentHashMap 和 HashTable 都是线程安全的，假设允许key和value为null，有以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (map.containsKey(key)) &#123;<span class="comment">//代码1</span></span><br><span class="line">   <span class="keyword">return</span> map.get(key);<span class="comment">//代码2</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">   <span class="keyword">throw</span> <span class="keyword">new</span> KeyNotPresentException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当在并发情况下，有两个线程分别在操作map容器，此时线程1在运行以上代码，当线程1运行到代码1与代码2中间时，刚好有另外一个线程2执行了map.remove(key)操作，此时继续运行代码2时，依然会返回null值。而此时的null实际上是map中真实的不存在该key值，应该throw new KeyNotPresentException()的。所以为了保证线程安全，这两个Map容器是不允许key和value为null。</p>
+<p>而HashMap是非线程安全的，不存在以上我们所说的并发情况。  </p>
 
           <br>
 <p>hogen</p>
