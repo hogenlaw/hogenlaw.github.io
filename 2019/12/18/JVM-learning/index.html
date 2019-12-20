@@ -1,0 +1,153 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>JVM 性能检测及调优 - hogen</title>
+    <link href="/images/fav.png" rel="shortcut icon">
+<link href="undefined" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+  <p>hogen</p>
+  <p>Follow Excellence. Success will chase you.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+      <section class="paging">
+  
+  
+    <div class="right">
+      <a href="/2019/12/18/Data-Structures-learning/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <!-- <div class='date'>2019-12-18</div> --><!--正文的日期-->
+            JVM 性能检测及调优
+          </h1>
+          <h3 id="JVM-是如何加载-Java类的"><a href="#JVM-是如何加载-Java类的" class="headerlink" title="JVM 是如何加载 Java类的"></a>JVM 是如何加载 Java类的</h3><p>在编写好代码之后，我们需要将 .java 文件编译成 .class 文件，才能在虚拟机上正常运行代码，可以通过 javac 命令来生成 .class 文件。看似一个简单的命令执行，前期编译的过程其实是非常复杂的，包括词法分析、填充符号表、注解处理、语义分析以及生成 class 文件，其中，常量池和方法表集合这两部分就需要关注。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Classfile /D:/ideaProjects/Demo/src/main/java/com/lhg/javaSE/thread/Singleton.class</span><br><span class="line">  Last modified 2019-12-18; size 674 bytes</span><br><span class="line">  //魔数</span><br><span class="line">  MD5 checksum 08f0112ae36b5a0a9a7c1336d4a204ad</span><br><span class="line">  Compiled from &quot;Singleton.java&quot;</span><br><span class="line">//版本号  </span><br><span class="line">public class com.lhg.javaSE.thread.Singleton</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line">  flags: ACC_PUBLIC, ACC_SUPER</span><br><span class="line">//常量池  </span><br><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #10.#26        // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = Fieldref           #5.#27         // com/lhg/javaSE/thread/Singleton.a:I</span><br><span class="line">   #3 = String             #28            // saa</span><br><span class="line">   #4 = Fieldref           #5.#29         // com/lhg/javaSE/thread/Singleton.CONST_AF:Ljava/lang/String;</span><br><span class="line">   ......</span><br><span class="line">  #40 = Utf8               java/io/PrintStream</span><br><span class="line">  #41 = Utf8               println</span><br><span class="line">  #42 = Utf8               (Ljava/lang/Object;)V</span><br><span class="line">&#123;</span><br><span class="line"> //方法表集合</span><br><span class="line">  public static com.lhg.javaSE.thread.Singleton getInstance();</span><br><span class="line">    descriptor: ()Lcom/lhg/javaSE/thread/Singleton;</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=0, args_size=0</span><br><span class="line">         0: new           #5                  // class com/lhg/javaSE/thread/Singleton</span><br><span class="line">         3: dup</span><br><span class="line">         4: invokespecial #6                  // Method &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         7: areturn</span><br><span class="line">      //属性表集合   </span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 8: 0</span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">    descriptor: ([Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=1, args_size=1</span><br><span class="line">         0: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         3: invokestatic  #8                  // Method getInstance:()Lcom/lhg/javaSE/thread/Singleton;</span><br><span class="line">         6: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/Object;)V</span><br><span class="line">         9: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 12: 0</span><br><span class="line">        line 14: 9</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>常量池主要记录的是类文件中出现的字面量以及符号引用。字面常量包括字符串常量（例如 String str=“abc”，其中”abc”就是常量），声明为 final 的属性以及一些基本类型（例如，范围在 -127-128 之间的整型）的属性。符号引用包括类和接口的全限定名、类引用、方法引用以及成员变量引用（例如 String str=“abc”，其中 str 就是成员变量引用）等。方法表集合中主要包含一些方法的字节码、方法访问权限（public、protect、prviate 等）、方法名索引（与常量池中的方法引用对应）、描述符索引、JVM 执行指令以及属性集合等。</p>
+<p>从 class 文件到内存中的类，按先后顺序需要经过加载、链接以及初始化三大步骤</p>
+<p><img src="/2019/12/18/JVM-learning/myblog\source\_posts\JVM-learning\1576676360939.png" alt="1576676360939"></p>
+<p><strong>加载</strong></p>
+<p>加载是指查找字节流，并且据此创建类的过程。加载需要借助类加载器，在 Java 虚拟机中，类加载器使用了双亲委派模型，即接收到加载请求时，会先将请求转发给父类加载器。</p>
+<blockquote>
+<p>在 Java 9 之前，启动类加载器负责加载最为基础、最为重要的类，比如存放在 JRE 的 lib 目录下 jar 包中的类。除了启动类加载器之外，另外两个重要的类加载器是扩展类加载器（extension class loader）和应用类加载器（application class loader），均由 Java 核心类库提供。</p>
+<p>扩展类加载器的父类加载器是启动类加载器。它负责加载相对次要、但又通用的类，比如存放在 JRE 的 lib/ext 目录下 jar 包中的类（以及由系统变量 java.ext.dirs 指定的类）。</p>
+<p>应用类加载器的父类加载器则是扩展类加载器。它负责加载应用程序路径下的类。（这里的应用程序路径，便是指虚拟机参数 -cp/-classpath、系统变量 java.class.path 或环境变量 CLASSPATH 所指定的路径。）默认情况下，应用程序中包含的类便是由应用类加载器加载的。</p>
+</blockquote>
+<p><strong>链接</strong></p>
+<p>链接，是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。链接还分验证、准备和解析三个阶段。其中，解析阶段为非必须的。</p>
+<blockquote>
+<p>验证阶段的目的，在于确保被加载类能够满足 Java 虚拟机的约束条件。</p>
+<p>准备阶段的目的，则是为被加载类的静态字段分配内存。除了分配内存外，部分 Java 虚拟机还会在此阶段构造其他跟类层次相关的数据结构，比如说用来实现虚方法的动态绑定的方法表。</p>
+<p>解析阶段的目的，正是将这些符号引用解析成为实际引用。如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载</p>
+</blockquote>
+<p><strong>初始化</strong></p>
+<p>初始化，则是为标记为常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。类的初始化仅会被执行一次，这个特性被用来实现单例的延迟初始化。</p>
+<blockquote>
+<p>如果直接赋值的静态字段被 final 所修饰，并且它的类型是基本类型或字符串时，那么该字段便会被 Java 编译器标记成常量值（ConstantValue），其初始化直接由 Java 虚拟机完成。除此之外的直接赋值操作，以及所有静态代码块中的代码，则会被 Java 编译器置于同一方法中，并把它命名为 &lt; clinit &gt;。</p>
+</blockquote>
+<p>只有当初始化完成之后，类才正式成为可执行的状态，那么，类的初始化何时会被触发呢？JVM 规范枚举了下述多种触发情况：</p>
+<ol>
+<li><p>当虚拟机启动时，初始化用户指定的主类；</p>
+</li>
+<li><p>当遇到用以新建目标类实例的 new 指令时，初始化 new 指令的目标类；</p>
+</li>
+<li><p>当遇到调用静态方法的指令时，初始化该静态方法所在的类；</p>
+</li>
+<li><p>当遇到访问静态字段的指令时，初始化该静态字段所在的类；</p>
+</li>
+<li><p>子类的初始化会触发父类的初始化；<strong>初始化子类的静态代码块时会先初始化父类的静态代码块</strong></p>
+</li>
+<li><p>如果一个接口定义了 default 方法，那么直接实现或者间接实现该接口的类的初始化，会触发该接口的初始化；</p>
+</li>
+<li><p>使用反射 API 对某个类进行反射调用时，初始化这个类；</p>
+</li>
+<li><p>当初次调用 MethodHandle 实例时，初始化该 MethodHandle 指向的方法所在的类。</p>
+</li>
+</ol>
+<h3 id="JVM-内存模型"><a href="#JVM-内存模型" class="headerlink" title="JVM 内存模型"></a>JVM 内存模型</h3><p>在 Java 中，JVM 内存模型主要分为堆、程序计数器、方法区、虚拟机栈和本地方法栈。</p>
+<p><img src="/2019/12/18/JVM-learning/myblog\source\_posts\JVM-learning\1576652396821.png" alt="1576652396821"></p>
+<p><strong>堆(Heap)</strong>是 JVM 内存中最大的一块内存空间，该内存被所有线程共享，几乎所有对象和数组都被分配堆内存中，堆被划分为新生代和老年代，新生代又被进一步划分为 Eden 和 Survivor 区，最后 Survivor 由 From Survivor 和 To Survivor 组成。</p>
+<blockquote>
+<p>在 Java6 版本中，永久代在非堆内存区；到了 Java7 版本，永久代的静态变量和运行时常量池被合并到了堆中；而到了 Java8，永久代被元空间取代了。 结构如下图所示：</p>
+</blockquote>
+<p><img src="/2019/12/18/JVM-learning/myblog\source\_posts\JVM-learning\1576652821877.png" alt="1576652821877"></p>
+<p><strong>程序计数器（Program Counter Register)</strong>：每个线程都有一个程序计数器，是线程私有的，说白了就是一个指针，指向方法区中的方法字节码(用来存储指向下一条指令的地址，也即将要执行的指令代码)，在执行引擎读取吓一条指令，是一个非常小的内存空间，几乎可以忽略不计。</p>
+<p><strong>本地方法栈（Native Method Stack)</strong>：带有native关键字的方法称为本地方法，说明java的作用范围到达不了，会进入本地方法栈，通过JNI调用本地方法接口，而JNI的作用就是为了扩展 Java 的使用，融合不同的编程语言为java所用，java诞生之初正是C/C++横行的时候，为了立足不得已为之，因此专门在内存中开辟了一块标记区域 ，native method stack，登记native方法</p>
+<p><strong>方法区（Method Area)</strong>：HotSpot 虚拟机使用永久代来实现方法区，但在其它虚拟机中，例如，Oracle 的 JRockit、IBM 的 J9 就不存在永久代一说。因此，方法区只是 JVM 中规范的一部分，可以说，在 HotSpot 虚拟机中，设计人员使用了永久代来实现了 JVM 规范的方法区(多开发者都习惯将方法区称为“永久代”，其实这两者并不是等价的)。</p>
+<p>方法区主要是用来存放已被虚拟机加载的类相关信息，包括类信息、运行时常量池、静态常量池、字符串常量池。类信息又包括了类的版本、字段、方法、接口和父类等信息。静态常量池主要存储的是字面量以及符号引用等信息，而运行时常量池存储的是类运行加载时生成的直接引用等信息。静态常量池也包括了我们说的字符串常量池。</p>
+<blockquote>
+<p>字面量包括字符串（String a=“b”）、基本类型的常量（final 修饰的变量），符号引用则包括类和方法的全限定名（例如 String 这个类，它的全限定名就是 Java/lang/String）、字段的名称和描述符以及方法的名称和描述符。</p>
+</blockquote>
+<p><strong>虚拟机栈（VM stack）</strong>：Java 虚拟机栈是线程私有的内存空间，它和 Java 线程一起创建。当创建一个线程时，会在虚拟机栈中申请一个线程栈，用来保存方法的局部变量、操作数栈、动态链接方法和返回地址等信息，并参与方法的调用和返回。每一个方法的调用都伴随着栈帧的入栈操作，方法的返回则是栈帧的出栈操作。</p>
+<p>思考：如果有一个类中定义了 String a=”b”和 String c = new String(“b”)，请问这两个对象会分别创建在 JVM 内存模型中的哪块区域呢？</p>
+<p>String a=”b”可能创建一个对象或者不创建对象,如果”b”这个字符串在常量池里不存在会在常量池创建一个String对象”b”,如果已经存在则a直接reference to这个常量池里的对象;<br>String c= new String(“b”)至少创建一个对象,也可能两个,因为用到new关键字,会在堆内在创建一个的String对象,它的值是”b”。同时,如果”b”这个字符串在常量池里不存在,会在常量池创建这个一个String对象”b”。</p>
+<h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><h4 id="回收发生在哪里？"><a href="#回收发生在哪里？" class="headerlink" title="回收发生在哪里？"></a><strong>回收发生在哪里？</strong></h4><p>JVM 的内存区域中，程序计数器、虚拟机栈和本地方法栈这 3 个区域是线程私有的，随着线程的创建而创建，销毁而销毁；栈中的栈帧随着方法的进入和退出进行入栈和出栈操作，每个栈帧中分配多少内存基本是在类结构确定下来的时候就已知的，因此这三个区域的内存分配和回收都具有确定性。所以垃圾回收的重点就是堆和方法区中的内存了，堆中的回收主要是对象的回收，方法区的回收主要是废弃常量和无用的类的回收。</p>
+<h4 id="如何判断对象可以被回收？"><a href="#如何判断对象可以被回收？" class="headerlink" title="如何判断对象可以被回收？"></a><strong>如何判断对象可以被回收？</strong></h4><p>一般一个对象不再被引用，就代表该对象可以被回收。目前有以下两种算法可以判断该对象是否可以被回收。</p>
+<p>引用计数：为每个对象添加一个引用计数器，用来统计指向该对象的引用个数，一旦某个对象的引用计数器为0，则说明该对象已死亡，可以回收了</p>
+<p>可达性分析：目前 <strong>Java 虚拟机的主流垃圾回收器采取的是可达性分析算法</strong>。这个算法的实质在于将一系列 GC Roots 作为初始的存活对象合集（live set），然后从该合集出发，探索所有能够被该集合引用到的对象，并将其加入到该集合中，这个过程我们也称之为标记（mark）。最终，未被探索到的对象便是死亡的，是可以回收的。</p>
+<h4 id="如何回收这些对象？"><a href="#如何回收这些对象？" class="headerlink" title="如何回收这些对象？"></a><strong>如何回收这些对象？</strong></h4><p>清除（sweep）</p>
+<p>把死亡对象所占据的内存标记为空闲内存，并记录在一个空闲列表（free list）之中。当需要新建对象时，内存管理模块便会从该空闲列表中寻找空闲内存，并划分给新建的对象。</p>
+<p>清除这种回收方式的原理及其简单，但是有两个缺点。一是会造成内存碎片。由于 Java 虚拟机的堆中对象必须是连续分布的，因此可能出现总空闲内存足够，但是无法分配的极端情况。</p>
+<p>复制（copy）</p>
+<p>把内存区域分为两等分，分别用两个指针 from 和 to 来维护，并且只是用 from 指针指向的内存区域来分配内存。当发生垃圾回收时，便把存活的对象复制到 to 指针指向的内存区域中，并且交换 from 指针和 to 指针的内容。</p>
+<p>这种算法虽然实现简单，内存效率高，不易产生碎片，但是最大的问题是可用内存被压缩到了原本的一半。且存活对象增多的话，copy 算法的效率会大大降低。 </p>
+<p>压缩（compact）</p>
+<p>把存活的对象聚集到内存区域的起始位置，从而留下一段连续的内存空间。这种做法能够解决内存碎片化的问题，但代价是压缩算法的性能开销。</p>
+<p>分代收集算法：分区回收</p>
+<p><img src="/2019/12/18/JVM-learning/myblog\source\_posts\JVM-learning\1576823651282.png" alt="1576823651282"></p>
+
+          <br>
+<p>hogen</p>
+<div class="date">2019-12-18</div>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">Powered by hogenlaw</span>
+</footer>
+
+  </body>
+</html>
