@@ -1,0 +1,174 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>如何应对高并发 - hogen</title>
+    <link href="/images/fav.png" rel="shortcut icon">
+<link href="undefined" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+  <p>hogen</p>
+  <p>Follow Excellence. Success will chase you.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+      <section class="paging">
+  
+  
+    <div class="right">
+      <a href="/2019/12/20/spring-boot-run-process/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <!-- <div class='date'>2019-12-21</div> --><!--正文的日期-->
+            如何应对高并发
+          </h1>
+          <h4 id="什么是高并发"><a href="#什么是高并发" class="headerlink" title="什么是高并发"></a>什么是高并发</h4><p>高并发(High Concurrency) 是互联网分布式系统架构中必须考虑的因素之一，它通常是指，通过设计保证系统能够同时并行处理很多请求。高并发相关常用的一些指标有 <strong>响应时间(Response time)</strong>、<strong>吞吐量(Throughput)</strong>、<strong>每秒查询率QPS(Query Per Second)</strong>，<strong>并发数</strong>等。</p>
+<ul>
+<li><strong>响应时间：</strong> 系统对请求做出响应的时间。例如系统处理一个 HTTP 请求需要 200ms，这个 200ms 就是系统的响应时间。</li>
+<li><strong>吞吐量：</strong> 单位时间(年，月，日，时，分，秒)内处理的请求数量。</li>
+<li><strong>QPS：</strong> 每秒响应请求数。在互联网领域，这个指标和吞吐量区分的没有这么明显。</li>
+<li><strong>并发用户数：</strong> 同时承载正常使用系统功能的用户数量。例如一个即时通讯系统，同时在线量一定程度上代表了系统的并发用户数。</li>
+</ul>
+<h4 id="如何提升系统的并发能力"><a href="#如何提升系统的并发能力" class="headerlink" title="如何提升系统的并发能力"></a>如何提升系统的并发能力</h4><p>互联网分布式架构设计，提高系统并发能力的方式，方法论上主要有两种：<strong>垂直扩展(Scale Up)</strong> 与 <strong>水平扩展(Scale Out)</strong>。</p>
+<h5 id="垂直扩展"><a href="#垂直扩展" class="headerlink" title="垂直扩展"></a>垂直扩展</h5><p>提升单机处理能力。垂直扩展的方式又有两种：</p>
+<ul>
+<li>增强单机硬件性能，例如：增加 CPU 核数如 32 核，升级更好的网卡如万兆，升级更好的硬盘如 SSD，扩充硬盘容量如 2T，扩充系统内存如 128G；</li>
+<li>提升单机架构性能，例如：使用 Cache 来减少 IO 次数，使用异步来增加单服务吞吐量，使用无锁数据结构来减少响应时间；</li>
+</ul>
+<p>在互联网业务发展非常迅猛的早期，如果预算不是问题，强烈建议使用 “增强单机硬件性能” 的方式提升系统并发能力，因为这个阶段，公司的战略往往是发展业务抢时间，而 “增强单机硬件性能” 往往是最快的方法。</p>
+<p>不管是提升单机硬件性能，还是提升单机架构性能，都有一个致命的不足：单机性能总是有极限的。所以互联网分布式架构设计高并发终极解决方案还是水平扩展。</p>
+<h5 id="水平扩展"><a href="#水平扩展" class="headerlink" title="水平扩展"></a>水平扩展</h5><p>只要增加服务器数量，就能线性扩充系统性能。水平扩展对系统架构设计是有要求的，如何在架构各层进行可水平扩展的设计，以及互联网公司架构各层常见的水平扩展实践，是本文重点讨论的内容</p>
+<h4 id="典型互联网分层架构"><a href="#典型互联网分层架构" class="headerlink" title="典型互联网分层架构"></a>典型互联网分层架构</h4><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239500707.png" alt="1577239500707"></p>
+<ul>
+<li><strong>客户端层：</strong> 典型调用方是浏览器或手机应用 APP</li>
+<li><strong>反向代理层：</strong> 系统入口(Ingress)，反向代理(Nginx)</li>
+<li><strong>站点应用层：</strong> 实现核心应用逻辑，返回 HTML 或者 JSON</li>
+<li><strong>服务层：</strong> 微服务体现在这一层</li>
+<li><strong>数据缓存层：</strong> 缓存加速访问存储</li>
+<li><strong>数据库层：</strong> 数据库持久化数据存储</li>
+</ul>
+<h4 id="水平扩展分层架构"><a href="#水平扩展分层架构" class="headerlink" title="水平扩展分层架构"></a>水平扩展分层架构</h4><h5 id="反向代理层的水平扩展"><a href="#反向代理层的水平扩展" class="headerlink" title="反向代理层的水平扩展"></a>反向代理层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239760429.png" alt="1577239760429"></p>
+<p>反向代理层的水平扩展，是通过 <strong>DNS 轮询</strong> 实现的：DNS Server 对于一个域名配置了多个解析 IP，每次 DNS 解析请求来访问 DNS Server，会轮询返回这些 IP。</p>
+<p>当 Nginx 成为瓶颈的时候，只要增加服务器数量，新增 Nginx 服务的部署，增加一个外网 IP，就能扩展反向代理层的性能，做到理论上的无限高并发。</p>
+<h5 id="站点应用层的水平扩展"><a href="#站点应用层的水平扩展" class="headerlink" title="站点应用层的水平扩展"></a>站点应用层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239925681.png" alt="1577239925681"></p>
+<p>站点层的水平扩展，是通过 <strong>Nginx</strong> 实现的。通过修改 <code>nginx.conf</code>，可以设置多个 Web 后端。</p>
+<p>当 Web 后端成为瓶颈的时候，只要增加服务器数量，新增 Web 服务的部署，在 Nginx 配置中配置上新的 Web 后端，就能扩展站点层的性能，做到理论上的无限高并发。</p>
+<h5 id="服务层的水平扩展"><a href="#服务层的水平扩展" class="headerlink" title="服务层的水平扩展"></a>服务层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239980535.png" alt="1577239980535"></p>
+<p>服务层的水平扩展，是通过 <strong>服务连接池</strong> 实现的。</p>
+<p>站点层通过 RPC Client 调用下游的服务层 RPC Server 时，RPC Client 中的连接池会建立与下游服务多个连接，当服务成为瓶颈的时候，只要增加服务器数量，新增服务部署，在 RPC Client 处建立新的下游服务连接，就能扩展服务层性能，做到理论上的无限高并发。如果需要优雅的进行服务层自动扩容，这里可能需要配置中心里服务自动发现功能的支持。</p>
+<h5 id="数据层的水平扩展"><a href="#数据层的水平扩展" class="headerlink" title="数据层的水平扩展"></a>数据层的水平扩展</h5><p>在数据量很大的情况下，数据层(缓存，数据库)涉及数据的水平扩展，将原本存储在一台服务器上的数据(缓存，数据库)水平拆分到不同服务器上去，以达到扩充系统性能的目的。</p>
+<p><strong>按照范围水平拆分</strong></p>
+<p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577240127031.png" alt="1577240127031"></p>
+<p>每一个数据服务，存储一定范围的数据</p>
+<ul>
+<li>user0 库，存储 uid 范围 1-1kw</li>
+<li>user1 库，存储 uid 范围 1kw-2kw</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>规则简单，Service 只需判断一下 uid 范围就能路由到对应的存储服务</li>
+<li>数据均衡性较好</li>
+<li>比较容易扩展，可以随时加一个 uid [2kw,3kw] 的数据服务</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>请求的负载不一定均衡，一般来说，新注册的用户会比老用户更活跃，大范围的服务请求压力会更大</li>
+</ul>
+<p><strong>按照哈希水平拆分</strong></p>
+<p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577240214336.png" alt="1577240214336"></p>
+<p>每一个数据库，存储某个 key 值 hash 后的部分数据</p>
+<ul>
+<li>user0 库，存储偶数 uid 数据</li>
+<li>user1 库，存储奇数 uid 数据</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>规则简单，Service 只需对 uid 进行 hash 能路由到对应的存储服务</li>
+<li>数据均衡性较好</li>
+<li>请求均匀性较好</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>不容易扩展，扩展一个数据服务，hash 方法改变时候，可能需要进行数据迁移</li>
+</ul>
+<h4 id="水平拆分与主从同步"><a href="#水平拆分与主从同步" class="headerlink" title="水平拆分与主从同步"></a>水平拆分与主从同步</h4><p>这里需要注意的是，通过水平拆分来扩充系统性能，与主从同步读写分离来扩充数据库性能的方式有本质的不同。</p>
+<p><strong>通过水平拆分扩展数据库性能</strong></p>
+<ul>
+<li>每个服务器上存储的数据量是总量的 1/n，所以单机的性能也会有提升</li>
+<li>n 个服务器上的数据没有交集，那个服务器上数据的并集是数据的全集</li>
+<li>数据水平拆分到了 n 个服务器上，理论上读性能扩充了 n 倍，写性能也扩充了 n 倍(其实远不止 n 倍，因为单机的数据量变为了原来的 1/n)</li>
+</ul>
+<p><strong>通过主从同步读写分离扩展数据库性能</strong></p>
+<ul>
+<li>每个服务器上存储的数据量是和总量相同</li>
+<li>n 个服务器上的数据都一样，都是全集</li>
+<li>理论上读性能扩充了 n 倍，写仍然是单点，写性能不变</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong> 缓存层的水平拆分和数据库层的水平拆分类似，也是以范围拆分和哈希拆分的方式居多</p>
+</blockquote>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>高并发(High Concurrency)是互联网分布式系统架构设计中必须考虑的因素之一，它通常是指，通过设计保证系统能够同时并行处理很多请求。</p>
+<p>提高系统并发能力的方式，方法论上主要有两种：垂直扩展(Scale Up)与水平扩展(Scale Out)。前者垂直扩展可以通过提升单机硬件性能，或者提升单机架构性能，来提高并发性，但单机性能总是有极限的，<strong>互联网分布式架构设计高并发终极解决方案还是后者：水平扩展</strong>。</p>
+<p>互联网分层架构中，各层次水平扩展的实践又有所不同：</p>
+<ul>
+<li>反向代理层可以通过 <strong>DNS 轮询</strong> 的方式来进行水平扩展</li>
+<li>站点层可以通过 Nginx 来进行水平扩展</li>
+<li>服务层可以通过服务连接池来进行水平扩展</li>
+<li>数据库可以按照数据范围，或者数据哈希的方式来进行水平扩展</li>
+</ul>
+<p>各层实施水平扩展后，能够通过增加服务器数量的方式来提升系统的性能，做到理论上的性能无限。</p>
+
+          <br>
+<p>hogen</p>
+<div class="date">2019-12-21</div>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">Powered by hogenlaw</span>
+</footer>
+
+  </body>
+</html>
