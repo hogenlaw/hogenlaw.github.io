@@ -66,7 +66,7 @@
 <p>在互联网业务发展非常迅猛的早期，如果预算不是问题，强烈建议使用 “增强单机硬件性能” 的方式提升系统并发能力，因为这个阶段，公司的战略往往是发展业务抢时间，而 “增强单机硬件性能” 往往是最快的方法。</p>
 <p>不管是提升单机硬件性能，还是提升单机架构性能，都有一个致命的不足：单机性能总是有极限的。所以互联网分布式架构设计高并发终极解决方案还是水平扩展。</p>
 <h5 id="水平扩展"><a href="#水平扩展" class="headerlink" title="水平扩展"></a>水平扩展</h5><p>只要增加服务器数量，就能线性扩充系统性能。水平扩展对系统架构设计是有要求的，如何在架构各层进行可水平扩展的设计，以及互联网公司架构各层常见的水平扩展实践，是本文重点讨论的内容</p>
-<h4 id="典型互联网分层架构"><a href="#典型互联网分层架构" class="headerlink" title="典型互联网分层架构"></a>典型互联网分层架构</h4><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239500707.png" alt="1577239500707"></p>
+<h4 id="典型互联网分层架构"><a href="#典型互联网分层架构" class="headerlink" title="典型互联网分层架构"></a>典型互联网分层架构</h4><p><img src="/2019/12/21/High-Concurrency/1577239500707.png" alt="1577239500707"></p>
 <ul>
 <li><strong>客户端层：</strong> 典型调用方是浏览器或手机应用 APP</li>
 <li><strong>反向代理层：</strong> 系统入口(Ingress)，反向代理(Nginx)</li>
@@ -75,18 +75,18 @@
 <li><strong>数据缓存层：</strong> 缓存加速访问存储</li>
 <li><strong>数据库层：</strong> 数据库持久化数据存储</li>
 </ul>
-<h4 id="水平扩展分层架构"><a href="#水平扩展分层架构" class="headerlink" title="水平扩展分层架构"></a>水平扩展分层架构</h4><h5 id="反向代理层的水平扩展"><a href="#反向代理层的水平扩展" class="headerlink" title="反向代理层的水平扩展"></a>反向代理层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239760429.png" alt="1577239760429"></p>
+<h4 id="水平扩展分层架构"><a href="#水平扩展分层架构" class="headerlink" title="水平扩展分层架构"></a>水平扩展分层架构</h4><h5 id="反向代理层的水平扩展"><a href="#反向代理层的水平扩展" class="headerlink" title="反向代理层的水平扩展"></a>反向代理层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/1577239760429.png" alt="1577239760429"></p>
 <p>反向代理层的水平扩展，是通过 <strong>DNS 轮询</strong> 实现的：DNS Server 对于一个域名配置了多个解析 IP，每次 DNS 解析请求来访问 DNS Server，会轮询返回这些 IP。</p>
 <p>当 Nginx 成为瓶颈的时候，只要增加服务器数量，新增 Nginx 服务的部署，增加一个外网 IP，就能扩展反向代理层的性能，做到理论上的无限高并发。</p>
-<h5 id="站点应用层的水平扩展"><a href="#站点应用层的水平扩展" class="headerlink" title="站点应用层的水平扩展"></a>站点应用层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239925681.png" alt="1577239925681"></p>
+<h5 id="站点应用层的水平扩展"><a href="#站点应用层的水平扩展" class="headerlink" title="站点应用层的水平扩展"></a>站点应用层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/1577239925681.png" alt="1577239925681"></p>
 <p>站点层的水平扩展，是通过 <strong>Nginx</strong> 实现的。通过修改 <code>nginx.conf</code>，可以设置多个 Web 后端。</p>
 <p>当 Web 后端成为瓶颈的时候，只要增加服务器数量，新增 Web 服务的部署，在 Nginx 配置中配置上新的 Web 后端，就能扩展站点层的性能，做到理论上的无限高并发。</p>
-<h5 id="服务层的水平扩展"><a href="#服务层的水平扩展" class="headerlink" title="服务层的水平扩展"></a>服务层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577239980535.png" alt="1577239980535"></p>
+<h5 id="服务层的水平扩展"><a href="#服务层的水平扩展" class="headerlink" title="服务层的水平扩展"></a>服务层的水平扩展</h5><p><img src="/2019/12/21/High-Concurrency/1577239980535.png" alt="1577239980535"></p>
 <p>服务层的水平扩展，是通过 <strong>服务连接池</strong> 实现的。</p>
 <p>站点层通过 RPC Client 调用下游的服务层 RPC Server 时，RPC Client 中的连接池会建立与下游服务多个连接，当服务成为瓶颈的时候，只要增加服务器数量，新增服务部署，在 RPC Client 处建立新的下游服务连接，就能扩展服务层性能，做到理论上的无限高并发。如果需要优雅的进行服务层自动扩容，这里可能需要配置中心里服务自动发现功能的支持。</p>
 <h5 id="数据层的水平扩展"><a href="#数据层的水平扩展" class="headerlink" title="数据层的水平扩展"></a>数据层的水平扩展</h5><p>在数据量很大的情况下，数据层(缓存，数据库)涉及数据的水平扩展，将原本存储在一台服务器上的数据(缓存，数据库)水平拆分到不同服务器上去，以达到扩充系统性能的目的。</p>
 <p><strong>按照范围水平拆分</strong></p>
-<p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577240127031.png" alt="1577240127031"></p>
+<p><img src="/2019/12/21/High-Concurrency/1577240127031.png" alt="1577240127031"></p>
 <p>每一个数据服务，存储一定范围的数据</p>
 <ul>
 <li>user0 库，存储 uid 范围 1-1kw</li>
@@ -103,7 +103,7 @@
 <li>请求的负载不一定均衡，一般来说，新注册的用户会比老用户更活跃，大范围的服务请求压力会更大</li>
 </ul>
 <p><strong>按照哈希水平拆分</strong></p>
-<p><img src="/2019/12/21/High-Concurrency/myblog\source\_posts\High-Concurrency\1577240214336.png" alt="1577240214336"></p>
+<p><img src="/2019/12/21/High-Concurrency/1577240214336.png" alt="1577240214336"></p>
 <p>每一个数据库，存储某个 key 值 hash 后的部分数据</p>
 <ul>
 <li>user0 库，存储偶数 uid 数据</li>
