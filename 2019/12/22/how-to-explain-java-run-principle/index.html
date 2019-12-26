@@ -1,0 +1,115 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>结合操作系统，如何理解一行Java代码是怎么运行的？ - hogen</title>
+    <link href="/images/fav.png" rel="shortcut icon">
+<link href="undefined" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+  <p>hogen</p>
+  <p>Follow Excellence. Success will chase you.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+      <section class="paging">
+  
+  
+    <div class="right">
+      <a href="/2019/12/21/High-Concurrency/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <!-- <div class='date'>2019-12-22</div> --><!--正文的日期-->
+            结合操作系统，如何理解一行Java代码是怎么运行的？
+          </h1>
+          <p>我们都知道 Java 是跑在 JVM 上的，那么 JVM 又是怎么和操作系统结合去操作我们的硬件设备的呢，其实这些硬件设备，就是我们平时说的内存、硬盘等 。例如我们要修改某个对象的属性值，在磁盘上创建一个文件，重新开一个线程并运行，计算两个数的和。那么这些代码分别都是怎么运行的呢？</p>
+<p>其实要想解决这个问题，我们可以跟踪这一行代码的整个生命周期来解释，大体分为以下五个步骤：</p>
+<p>首先，java 代码会被编译成字节码，然后被 JVM 通过类加载器进行加载，接着再被解释器解释成机器码，然后分配执行这段指令需要的资源，主要是内存，然后就是 CPU 执行指令并把结果写回内存了。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577330237535.png" alt="1577330237535"></p>
+<p>我们都知道，Java 是一门高级语言，这类语言并不能直接运行在硬件上，它必须运行在能够识别 Java 语言特性的虚拟机上，而 Java 代码必须通过 Java 编译器将其转换为虚拟机所能识别的指令序列，也称为 Java 字节码，比如下面是 输出 Hello World的字节码：</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577331000313.png" alt="1577331000313"></p>
+<p>有了字节码，Java通过类加载器进行加载，加载完后通过解释器解释成汇编指令，最终再转译成 CPU 可以识别的机器指令，下面是由汇编语言转换成的机器指令：</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577331233441.png" alt="1577331233441"></p>
+<p>解释器是通过软件来实现的，它将字节码转换成汇编指令，可以实现同一份 Java 字节码在不同的硬件设备上运行，而将汇编指令转换成机器指令由硬件直接实现，所以它的速度会更快，<strong>JVM 为了提高效率，会将某些热点代码，一次全部编译成机器指令再执行，也就是和解释执行对应的即时编译</strong>，即时编译的代码存放在一个叫 codecache 的缓存的地方，这块内存属于堆外内存，如果这块内存不够了，那么即时编译将不会再进行即时编译，可能导致程序运行变慢，这也是我们排查性能变慢的一个点。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577331687021.png" alt="1577331687021"></p>
+<p>代码转换成了指令，指令要执行就必须要有上下文的环境，这些环境包括指令寄存器、数据寄存器、栈空间等内存资源，程序被加载进内存后，指令就在内存中了，指令的指针寄存器IP，指向内存中的下一条待执行指令的地址，CPU 中的控制单元根据 IP 寄存器的指向，将主存中的指令装载到指令寄存器，这个指令寄存器也是一个存储设备，不过它集成在 CPU 内部，指令从主存到达CPU 后，只是一串 0101001 的二进制串，还需要译码器进行解码，解码后根据运算类型再从主存中获取操作数，并调用运算单元进行计算。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577332071474.png" alt="1577332071474"></p>
+<p>实际上我们的数据主要是存放在内存上，然而 CPU 的计算速度比主存的存取速度快很多倍，所以在两者之间会有多级高速缓存，例如当 CPU 有个指令是取主存中的某一个个值，CPU 会根据这个值在主存上的位置，去判断是否已经在高速缓存中，如果没有就会去主存取，取完再放在高速缓存中。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577332795747.png" alt="1577332795747"></p>
+<p>这个地方会涉及到一个知识点，就是去主存上读取的时候，并不会仅仅去读取一个值，而是把 一段长度的值都拿出来并缓存，因为它会假设你既然读了某个位置的值，那么这个位置相邻的值可能也会被读取，就像我们用 SQL 去查询 id=8 这行记录的时候，虽然它返回了 id=8 这行记录，实际上它去读这行记录的时候，把这行记录所在的数据页上的所有记录都放在内存里面了，可能下次你去查询 id=9 这行记录的时候，直接就命中缓存，就不用去磁盘查了。</p>
+<p>所以我们知道，一个缓存行可能缓存了多个字段的值，如果某个进程改了其中一个值，就会导致一整个缓存都会失效，那么这个缓存行上的其它值也会重新从内存读取，所以一些对内存比较高的应用，就想规避掉这种情况，比如他们会用对象填充的方式，让某个字段的值可以独占一整个缓存行。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577333512316.png" alt="1577333512316"></p>
+<p>好，有了执行环境，我们这段代码什么时候执行呢，我们知道 CPU 一通上电，就会不停地取指令、运算，周而复始，那什么时候才会执行到我们自己的代码呢？</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577333724056.png" alt="1577333724056"></p>
+<p>实际上，CPU 给每一个进程都分配了一个时间片，在这个时间片内执行对应进程的指令，过了这个时间片就执行别的进程，一个进程内的指令执行的顺序，靠每个指令执行完，再去指向下一个指令的位置。</p>
+<p>当然，一个进程内的某些操作，也会主动放弃 CPU 的执行权限，比如等待 IO 的操作，所以为了让一个进程内的指令可以更高效地执行，我们可以让某个线程在等待 IO 的时候，其它线程能够获取到 CPU 的执行权限并继续执行，如果你的任务都是计算性的任务，基本不会有主动释放 CPU 的情况，那么在单核机器上，就没必要开多线程；如果有大量的 IO 操作，那么多线程的效果就会比较好。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577333920402.png" alt="1577333920402"></p>
+<p>接下来，我们分析下，代码执行的时候内存是怎么分配的，一个 JVM 启动就会产生一个进程，虽然多个进程会共享一块物理内存，但是每个进程都会拥有自己独立的内存空间，当我们同时启动多个JVM 并执行 <code>System.out.println(new Object());</code>，将会打印这个对象的 hashCode，而 hashCode默认为内存的地址，最后发现它们打印的都是类似 java.lang.Object@9807454 这坨，也就是说，多个 JVM 进程返回的内存地址是一样的，这说明每个进程都有单独的地址空间。</p>
+<p>实际上每个进程自己都会维护一个虚拟的内存，虚拟存储让每个进程以为自己独占整个内存空间，这样的好处是，每个进程都拥有一致的虚拟地址空间，简化了内存管理，进程不需要和其它进程竞争内存空间，因为它是独占的，这也保护各自进程不会被其它进程破坏。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577334754095.png" alt="1577334754095"></p>
+<p>每个进程在申请内存的时候，会维护虚拟内存和物理内存的映射关系，避免其它进程占用自己的内存，而这个虚拟内存空间，可能会超过物理内存，当超过物理内存的时候，可能会发生数据溢出，从而存储到磁盘上。</p>
+<p><strong>页表</strong>保存了虚拟地址和物理地址的映射，页表是一个数组，每一个元素为一个页的映射关系，这个映射关系可能是和主存的，也可能是和磁盘的，页表存储在主存中，也可以存储在缓冲区，我们将存储在高速缓冲区中的页表称为 TLAB。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577335027510.png" alt="1577335027510"></p>
+<p>好，我们知道 JVM 进程的内存地址是怎么和物理内存关联的了，那么具体的一行 Java 代码，无非就是读取某个属性的值，将这个值做运算，再将新的值写回某个属性，那么我们怎么样才能读取到某个属性的值呢?</p>
+<p>可以参考 JDK 中反射的实现，也就是说当我们获取到一个 Field 对象，就可以通过 set() 方法或者 get() 方法设置和读取某个属性的值，它首先要获取这个属性相对对象初始位置的偏移量，如果你持有这个对象的引用，你就能获取到这个对象在虚拟内存中的起始地址，然后我们根据属性的偏移量，就可以获取这个属性的虚拟的内存地址，之后再查询页表就可以获取物理的内存的起始地址，接着再根据这个属性的类型取对应长度的数据，写入也是一样的道理，属性相对对象初始位置的偏移量，在加载这个 class 的时候就确认好了，它是和 class 绑定的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UnsafeStaticIntegerFieldAccessorImpl</span> <span class="keyword">extends</span> <span class="title">UnsafeStaticFieldAccessorImpl</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getInt</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IllegalArgumentException </span>&#123;</span><br><span class="line">        <span class="comment">//调用 unsafe 中的方法</span></span><br><span class="line">        <span class="keyword">return</span> unsafe.getInt(base, fieldOffset);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">UnsafeFieldAccessorImpl</span> <span class="keyword">extends</span> <span class="title">FieldAccessorImpl</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取 field 在所在对象中的地址的偏移量，fieldOffset</span></span><br><span class="line">    UnsafeFieldAccessorImpl(Field field) &#123;</span><br><span class="line">        <span class="keyword">this</span>.field = field;</span><br><span class="line">        <span class="keyword">if</span> (Modifier.isStatic(field.getModifiers()))</span><br><span class="line">            fieldOffset = unsafe.staticFieldOffset(field);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            fieldOffset = unsafe.objectFieldOffset(field);</span><br><span class="line">        isFinal = Modifier.isFinal(field.getModifiers());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么如果一个对象就一个属性，如果不压缩的话除了对象头占 128 位，这个属性的偏移量可能就是 128；如果有多个属性，JVM 会对属性进行重排序和内存对齐，保证对象占用的大小是 8 的倍数，另一个作用就是保证一个属性的值，都在一个 CPU 的缓存行中，不然一个属性的值，会一部分在缓存行 A 中,会一部分在缓存行 B 中。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577336219822.png" alt="1577336219822"></p>
+<p>最后来稍稍总结一下，我们应该从哪些关键点去理解一行代码是怎么执行的呢，首先我们要了解 解释执行和即时编译的区别，之后需要了解 CPU 是如何访问内存里的数据的，最后就是掌握 JVM 里面是如何获取某个对象的属性值。</p>
+<p><img src="/2019/12/22/how-to-explain-java-run-principle/1577336441124.png" alt="1577336441124"></p>
+
+          <br>
+<p>hogen</p>
+<div class="date">2019-12-22</div>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">Powered by hogenlaw</span>
+</footer>
+
+  </body>
+</html>
