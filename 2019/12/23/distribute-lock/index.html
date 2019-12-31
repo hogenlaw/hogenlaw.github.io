@@ -1,0 +1,151 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>关于分布式锁 - hogen</title>
+    <link href="/images/fav.png" rel="shortcut icon">
+<link href="undefined" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+  <p>hogen</p>
+  <p>Follow Excellence. Success will chase you.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2019/12/24/linux-command/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2019/12/22/how-to-explain-java-run-principle/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <!-- <div class='date'>2019-12-23</div> --><!--正文的日期-->
+            关于分布式锁
+          </h1>
+          <h4 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h4><p>早期单体应用盛行的时代，也是有高并发的问题，对于单进程多线程访问资源的问题，直接加个同步锁或 Lock 锁就可以，也没那么麻烦，但是如今项目的开发，动不动就是分布式、微服务，听着就高大上，对于项目本身，则是什么高并发、高性能、高可用，也就是<strong>多进程多线程</strong>，现在我们的服务基本都是基于分布式集群来实现部署的，对于一些共享资源，在分布式环境下使用 Java 锁的方式就失去作用了。</p>
+<p>为了防止分布式系统中的多个进程之间相互干扰，我们需要一种分布式协调技术来对这些进程进行调度。而这个分布式协调技术的核心就是<strong>分布式锁</strong></p>
+<blockquote>
+<p>分布式协调技术主要用来解决分布式环境当中多个进程之间的同步控制，让他们有序的去访问某种临界资源，防止造成”脏数据”的后果。</p>
+</blockquote>
+<h3 id="单点故障"><a href="#单点故障" class="headerlink" title="单点故障"></a>单点故障</h3><p>通常分布式系统采用主从模式，就是一个主控机连接多个处理节点。主节点负责分发任务，从节点负责处理任务，当我们的主节点发生故障时，那么整个系统就都瘫痪了，那么我们把这种故障叫作单点故障。</p>
+<h3 id="为什么要使用分布式锁"><a href="#为什么要使用分布式锁" class="headerlink" title="为什么要使用分布式锁"></a>为什么要使用分布式锁</h3><p>原因上面已经说了，这里再贴张图</p>
+<p><img src="/2019/12/23/distribute-lock/1577710200177.png" alt="1577710200177"></p>
+<p>比如上图，三个用户(模拟高并发)请求通过负载均衡到了三个服务器，也就是说启动了三个进程，三个用户都要对变量 A 进行操作，都会在 JVM 分配一块内存，三个请求同时对这个变量操作，显然结果是不对的</p>
+<h3 id="分布式锁的实现"><a href="#分布式锁的实现" class="headerlink" title="分布式锁的实现"></a>分布式锁的实现</h3><h4 id="数据库实现分布式锁"><a href="#数据库实现分布式锁" class="headerlink" title="数据库实现分布式锁"></a>数据库实现分布式锁</h4><p>查询的时候防止幻读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">where</span> <span class="string">`order_id`</span>= <span class="string">'xxxx'</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>除了查询时防止幻读，我们还需要保证查询和插入是在同一个事务中，因此我们需要申明事务，伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addOrderRecord</span><span class="params">(Order order)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(orderDao.selectOrderRecord(order)==<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">int</span> result = orderDao.addOrderRecord(order);</span><br><span class="line">        <span class="keyword">if</span>(result&gt;<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Redis-实现分布式锁"><a href="#Redis-实现分布式锁" class="headerlink" title="Redis 实现分布式锁"></a>Redis 实现分布式锁</h4><p>三个核心要素：</p>
+<p><strong>加锁</strong>：最简单的方法是使用 setnx 命令，key 是锁的唯一标识，按业务来决定命名，比如对于某一订单，可以给 key 命名为 “lock_order_id”，value 可以设置为1 ，伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setnx(lock_order_id, 1)</span><br></pre></td></tr></table></figure>
+<p>当一个线程执行 setnx 返回1，说明 key 原本不存在，该线程成功得到了锁；</p>
+<p>当一个线程执行 setnx 返回0，说明 key 已经存在，该线程抢锁失败；</p>
+<p><strong>解锁</strong>：有加锁就有解锁，当得到锁的线程执行完任务，需要释放锁，以便其它线程可以进入，释放锁最简单方式是执行 del 指令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">del(lock_order_id)</span><br></pre></td></tr></table></figure>
+<p>释放锁后，其它线程就可以继续执行 setnx 来获得锁</p>
+<p><strong>锁超时</strong>：如果一个得到锁的线程在执行任务的过程中挂掉，来不及显式地释放锁，这块资源将被永远锁住，也是所谓的死锁，别的线程再也别想进来，所以， setnx 的 key 必须设置一个超时时间，以保证即便没有被显式释放，这把锁也要在一定时间后自动释放，setnx 不支持超时参数，需要要额外指令，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expire(lock_order_id，<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+<p>综合伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(setnx(lock_order_id, <span class="number">1</span>) == <span class="number">1</span>)&#123;</span><br><span class="line">    expire(lock_order_id，<span class="number">30</span>)</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="comment">//do sth</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">       del(lock_order_id) </span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上伪代码中存在三个致命问题，</p>
+<p><strong>setnx 和 expire 的非原子性</strong>：设想一个极端场景，当莫线程执行 setnx ，成功得到了锁，然而 setnx 刚执行完还没来得及执行 expire 指令 ，它所在的节点就挂了，这样一来，这把锁就没有设置过期时间，成了死锁，别的线程再也无法获得锁了，幸好，在  Redis 2.6.12 版本后 SETNX 增加了过期时间参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set(lock_order_id, <span class="number">1</span>, <span class="number">30</span>, nx)</span><br></pre></td></tr></table></figure>
+<p><strong>del 导致误删：</strong>又是一个极端场景，假如某线程A成功得到了锁，并且设置的时间是 30 秒，可是由于某些原因导致线程A 执行地很慢，过了30s 都没执行完，这时候锁过期自动释放锁，线程 B 获得了锁，随后，线程A 执行完了任务，线程 A 接着执行 del 指令来释放锁，但这时候线程 B 还没执行完，线程 A 实际上删除的是线程 B 加的锁。</p>
+<p>那怎么避免这个情况呢？ 可以在 del  释放锁之前加个判断，验证当前的锁是不是自己加的锁，具体到代码，可以加锁的时候把当前线程 ID 当作 value，并在删除前 验证 key 对应的 value 是不是自己线程的 ID。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加锁</span></span><br><span class="line">String curThreadId = Thread.currentThread().getId();</span><br><span class="line">set(key,curThreadId, <span class="number">30</span>, NX );</span><br><span class="line"><span class="comment">//解锁</span></span><br><span class="line"><span class="keyword">if</span>(curThreadId.equals(redisClient.get(key)))&#123;</span><br><span class="line">    del(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是，这样做又隐含了一个新的问题，判断和释放锁是两个独立操作，不是原子性。</p>
+<p><strong>出现并发的可能性：</strong>在 del 导致误删 中描述的场景，虽然后面通过代码避免了线程 A 误删掉 key 的情况，但是同一时间有 A, B两个线程在访问代码块，仍然是不完美的，怎么办呢？我们让获得锁的线程开启一个守护线程，用来给快要过期的锁”续航”，</p>
+<p><img src="/2019/12/23/distribute-lock/1577713617289.png" alt="1577713617289"></p>
+<p>当过去了 29 秒，线程 A 还没执行完，这时候守护线程会执行 expire 指令，为这把锁续命 20 秒，守护线程从第 20 秒开始，每 20 秒执行一次，</p>
+<p><img src="/2019/12/23/distribute-lock/1577713710713.png" alt="1577713710713"></p>
+<h4 id="Zookeeper-实现分布式锁"><a href="#Zookeeper-实现分布式锁" class="headerlink" title="Zookeeper 实现分布式锁"></a>Zookeeper 实现分布式锁</h4><p>Zookeeper  是一个服务注册与发现中心，它主要解决了一个分布式锁的问题。</p>
+<p>那它是怎么做到的呢？</p>
+<p>本来有一个主服务器，下面有多个从服务器，调用主服务器，主服务器调用从服务器的资源，突然主服务器挂掉了，但是下面的从服务器还能提供工作呢，结果因为主服务器挂掉了，下面两个从服务器也不能正常工作了，这就是单点故障。</p>
+<p>于是我们传统的解决方案是两个节点，一个主节点一个备用节点，备用节点会 ping 主节点，发现主节点没有响应了，备用节点就会上线，代替原来的主节点成为新的主节点，但是有种情况，之前的主节点没有响应只是网络问题没有及时反馈，所以备用节点误以为主节点挂掉了，于是出现了双主问题，一旦出现双主问题，我们所有的请求就会出现多次重复，那么数据就会有问题，导致我们系统会有问题。</p>
+<p>为了解决这个问题，我们引入了一个技术，叫做分布式锁技术，而 zookeeper 这个框架就是为了解决分布式锁问题的。</p>
+<p>所有的服务启动的时候，都要向 zookeeper 注册，zookeeper 维护了一个节点列表，这时候，zookeeper 会来选举，谁来成为主节点，其余的那些备用节点会处于阻塞状态，当出现网络震荡/不通，zookeeper 会将主节点从节点列表中删掉，删掉以后 zookeeper 从备用节点开始重新选举主节点，假如过了一段时间网络又好了，它会在 zookeeper 重新注册，成为一个备用节点，</p>
+<p><strong>Zookeeper 的数据模型</strong></p>
+<p><img src="/2019/12/23/distribute-lock/1577716639289.png" alt="1577716639289"></p>
+<p>Zookeeper 提供一个多层级的节点命名空间（节点称为 Znode），每个节点都用一个以斜杠（/）分隔的路径来表示，而且每个节点都有父节点（根节点除外），非常类似于文件系统。</p>
+<p>但是不同于树的节点，Znode 的引用方式是路径引用，类似于文件路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/动物/猫</span><br></pre></td></tr></table></figure>
+<p>这样的层级结构，让每一个 Znode 节点拥有唯一的路径，就像命名空间一样对不同信息做出清晰的隔离</p>
+<p> <strong>Znode 包含哪些元素</strong></p>
+<p><img src="/2019/12/23/distribute-lock/1577716852960.png" alt="1577716852960"></p>
+<ul>
+<li>data : Znode 存储的数据信息</li>
+<li>ACL:  记录 Znode 的访问权限，即哪些人或哪些 IP 可以访问本节点</li>
+<li>stat：包含 Znode 的各种元数据，比如事务 ID，版本号、时间戳、大小等等</li>
+<li>child：当前节点的子节点引用</li>
+</ul>
+<blockquote>
+<p>这里要注意，Zookeeper 为读多写少的场景所设计，Znode 并不是用来存储大规模业务数据，而是用来存储少量的状态和配置信息，每个节点数据最大不能超过 1 MB</p>
+</blockquote>
+<p><strong>Zookeeper 是如何实现分布式锁</strong></p>
+<p>首先，我们需要建立一个父节点，节点类型为持久节点（PERSISTENT） ，每当需要访问共享资源时，就会在父节点下建立相应的顺序子节点，节点类型为临时节点（EPHEMERAL），且标记为有序性（SEQUENTIAL），并且以临时节点名称 + 父节点名称 + 顺序号组成特定的名字。</p>
+<p>在建立子节点后，对父节点下面的所有以临时节点名称 name 开头的子节点进行排序，判断刚刚建立的子节点顺序号是否是最小的节点，如果是最小节点，则获得锁。</p>
+<p>如果不是最小节点，则阻塞等待锁，并且获得该节点的上一顺序节点，为其注册监听事件，等待节点对应的操作获得锁。</p>
+<p>当调用完共享资源后，删除该节点，关闭 zk，进而可以触发监听事件，释放该锁。</p>
+<p><img src="/2019/12/23/distribute-lock/1577717497681.png" alt="1577717497681"></p>
+<p>步骤总结：简单来说，首先会创建一个目录 MyZookeeper，线程 A 想获取锁就在 MyZookeeper 目录下创建临时顺序节点，比如说 master-001，然后获取 MyZookeeper 目录下所有的子节点，然后获取比自己小的兄弟节点，如果不存在，则说明当前线程顺序号最小，获得锁；另外一个线程 B 也想访问共享资源，也会创建子节点，比如master-002，同样遍历MyZookeeper 目录下所有的子节点，判断自己不是最小节点，会设置监听比自己次小的节点。</p>
+
+          <br>
+<p>hogen</p>
+<div class="date">2019-12-23</div>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">Powered by hogenlaw</span>
+</footer>
+
+  </body>
+</html>

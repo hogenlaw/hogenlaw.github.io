@@ -1,0 +1,274 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>Linux - hogen</title>
+    <link href="/images/fav.png" rel="shortcut icon">
+<link href="undefined" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+  <p>hogen</p>
+  <p>Follow Excellence. Success will chase you.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2019/12/30/2019-summary/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2019/12/23/distribute-lock/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <!-- <div class='date'>2019-12-24</div> --><!--正文的日期-->
+            Linux
+          </h1>
+          <h3 id="linux-简介"><a href="#linux-简介" class="headerlink" title="linux 简介"></a>linux 简介</h3><p>Linux 是一种自由和开放源码的类 UNIX 操作系统，使用 Linux 内核。目前存在着许多不同的 Linux 发行版，可安装在各种各样的电脑硬件设备，从手机、平板电脑、路由器和影音游戏控制台，到桌上型电脑，大型电脑和超级电脑。</p>
+<p>一般来说著名的 Linux 系统基本上分两大类：<br>RedHat 系列：Redhat、Centos、Fedora 等<br>Debian 系列：Debian、Ubuntu 等</p>
+<p>Redhat系列<br>1、常见的安装包格式为：rpm包，安装rpm包的命令是：rpm-参数<br>2、包的管理工具：yum<br>3、支持tar包</p>
+<p>Debian系列<br>1、常见的安装包格式为：deb包，安装deb包的命令是：dpkg-参数<br>2、包的管理工具：apt-get<br>3、支持tar包</p>
+<h3 id="阿里云镜像网站"><a href="#阿里云镜像网站" class="headerlink" title="阿里云镜像网站"></a>阿里云镜像网站</h3><p><a href="https://developer.aliyun.com/mirror" target="_blank" rel="noopener">https://developer.aliyun.com/mirror</a></p>
+<h3 id="Linux-目录结构"><a href="#Linux-目录结构" class="headerlink" title="Linux 目录结构"></a>Linux 目录结构</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# ll</span><br><span class="line">total 16</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Nov 25 12:01 bin -&gt; usr/bin</span><br><span class="line">dr-xr-xr-x.   5 root root 4096 Nov 25 07:33 boot</span><br><span class="line">drwxr-xr-x.  20 root root 3240 Dec 25 21:18 dev</span><br><span class="line">drwxr-xr-x.  85 root root 8192 Dec 25 21:18 etc</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 11  2018 home</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Nov 25 12:01 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx.   1 root root    9 Nov 25 12:01 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 11  2018 media</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 11  2018 mnt</span><br><span class="line">drwxr-xr-x.   3 root root   24 Nov 25 08:08 opt</span><br><span class="line">dr-xr-xr-x. 121 root root    0 Dec 25 21:18 proc</span><br><span class="line">dr-xr-x---.   3 root root  147 Nov 25 07:35 root</span><br><span class="line">drwxr-xr-x.  27 root root  840 Dec 25 21:28 run</span><br><span class="line">lrwxrwxrwx.   1 root root    8 Nov 25 12:01 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 11  2018 srv</span><br><span class="line">dr-xr-xr-x.  13 root root    0 Dec 25 21:18 sys</span><br><span class="line">drwxrwxrwt.   9 root root  206 Dec 30 03:29 tmp</span><br><span class="line">drwxr-xr-x.  13 root root  155 Nov 25 12:01 usr</span><br><span class="line">drwxr-xr-x.  19 root root  267 Nov 25 12:18 var</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bin</td>
+<td style="text-align:center">存放二进制可执行文件(ls,cat,mkdir等)</td>
+</tr>
+<tr>
+<td>boot</td>
+<td style="text-align:center">存放用于系统引导时使用的各种文件</td>
+</tr>
+<tr>
+<td>dev</td>
+<td style="text-align:center">用于存放设备文件</td>
+</tr>
+<tr>
+<td>etc</td>
+<td style="text-align:center">存放系统配置文件</td>
+</tr>
+<tr>
+<td>home</td>
+<td style="text-align:center">存放所有用户文件的根目录</td>
+</tr>
+<tr>
+<td>lib</td>
+<td style="text-align:center">存放跟文件系统中的程序运行所需要的共享库及内核模块</td>
+</tr>
+<tr>
+<td>mnt</td>
+<td style="text-align:center">系统管理员安装临时文件系统的安装点</td>
+</tr>
+<tr>
+<td>opt</td>
+<td style="text-align:center">额外安装的可选应用程序包所放置的位置</td>
+</tr>
+<tr>
+<td>proc</td>
+<td style="text-align:center">虚拟文件系统，存放当前内存的映射</td>
+</tr>
+<tr>
+<td>root</td>
+<td style="text-align:center">超级用户目录</td>
+</tr>
+<tr>
+<td>sbin</td>
+<td style="text-align:center">存放二进制可执行文件，只有root才能访问</td>
+</tr>
+<tr>
+<td>tmp</td>
+<td style="text-align:center">用于存放各种临时文件</td>
+</tr>
+<tr>
+<td>usr</td>
+<td style="text-align:center">用于存放系统应用程序，比较重要的目录/usr/local 本地管理员软件安装目录</td>
+</tr>
+<tr>
+<td>var</td>
+<td style="text-align:center">用于存放运行时需要改变数据的文件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Linux-常用命令"><a href="#Linux-常用命令" class="headerlink" title="Linux 常用命令"></a>Linux 常用命令</h3><h4 id="操作文件目录"><a href="#操作文件目录" class="headerlink" title="操作文件目录"></a>操作文件目录</h4><ul>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# ls    </span><br><span class="line"><span class="meta">#</span> ls -l	列出文件的详细信息</span><br><span class="line"><span class="meta">#</span> ls -a	列出当前目录所有文件，包含隐藏文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# mkdir </span><br><span class="line"><span class="meta">#</span> mkdir [-p] dirName     -p	父目录不存在情况下先生成父目录</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# cd</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# touch</span><br><span class="line"><span class="meta">#</span> 生成一个空文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# echo &apos;HelloWord&apos;</span><br><span class="line">HelloWord</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# cat test.txt</span><br><span class="line">Hi, My name is HeGuang!</span><br><span class="line"><span class="meta">#</span> 显示文本文件内容</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# cp test.txt  test_bak.txt</span><br><span class="line">[root@localhost tmp]# ls</span><br><span class="line">test_bak.txt  test.txt</span><br><span class="line"><span class="meta">#</span> 如果是复制文件夹用 cp -r</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# rm -f 文件名/文件夹名</span><br><span class="line"><span class="meta">#</span> -f	强制删除文件或目录</span><br><span class="line"><span class="meta">#</span> -r	同时删除该目录下的所有文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# mv test_bak.txt abc/  # 移动文件到当前目录的abc文件夹下</span><br><span class="line">[root@localhost tmp]# mv data abc/    # 移动 data 文件夹到当前目录的abc文件夹下</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# find my*.txt</span><br><span class="line">mytest.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# find | grep 'my' mytest.txt</span><br><span class="line">you are my destiny  # my被标红</span><br><span class="line"><span class="meta">#</span> grep 在指定的文本文件中查找指定的字符串</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# head mytest.txt</span><br><span class="line">you are my destiny</span><br><span class="line"><span class="meta">#</span> head 显示文件开头内容</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# tail mytest.txt</span><br><span class="line"><span class="meta">#</span> tail 显示文件结尾内容 </span><br><span class="line"><span class="meta">#</span> -f	跟踪输出</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# pwd</span><br><span class="line">/usr/local/tmp</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>待续….</p>
+<h4 id="系统管理命令"><a href="#系统管理命令" class="headerlink" title="系统管理命令"></a>系统管理命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>df</td>
+<td>显示文件系统磁盘空间的使用情况</td>
+</tr>
+<tr>
+<td>who</td>
+<td>显示在线登录用户</td>
+</tr>
+<tr>
+<td>hostname</td>
+<td>显示主机名称</td>
+</tr>
+<tr>
+<td>uname</td>
+<td>显示系统信息</td>
+</tr>
+<tr>
+<td>top</td>
+<td>显示当前系统中耗费资源最多的进程</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>显示瞬间的进程状态</td>
+</tr>
+<tr>
+<td>du</td>
+<td>显示指定的文件（目录）已使用的磁盘空间的总量</td>
+</tr>
+<tr>
+<td>free</td>
+<td>显示当前内存和交换空间的使用情况</td>
+</tr>
+<tr>
+<td>ifconfig</td>
+<td>显示网络接口信息</td>
+</tr>
+<tr>
+<td>ping</td>
+<td>测试网络的连通性</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>显示网络状态信息</td>
+</tr>
+<tr>
+<td>clear</td>
+<td>清屏</td>
+</tr>
+<tr>
+<td>kill</td>
+<td>杀死一个进程</td>
+</tr>
+</tbody>
+</table>
+<h4 id="开关机命令"><a href="#开关机命令" class="headerlink" title="开关机命令"></a>开关机命令</h4><ul>
+<li>shutdown</li>
+<li>reboot </li>
+</ul>
+<p>shutdown 命令可以用来进行关机程序，并且在关机以前传送讯息给所有使用者正在执行的程序，shutdown 也可以用来重开机。</p>
+<h4 id="压缩命令"><a href="#压缩命令" class="headerlink" title="压缩命令"></a>压缩命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# tar -zcvf test.tar.gz test\</span><br><span class="line">[root@localhost tmp]# tar -zxvf test.tar.gz</span><br><span class="line"><span class="meta">#</span> -c	建立一个归档文件的参数指令</span><br><span class="line"><span class="meta">#</span> -x	解开一个归档文件的参数指令</span><br><span class="line"><span class="meta">#</span> -z	是否需要用 gzip 压缩</span><br><span class="line"><span class="meta">#</span> -j	是否需要用 bzip2 压缩</span><br><span class="line"><span class="meta">#</span> -v	压缩的过程中显示文件</span><br><span class="line"><span class="meta">#</span> -f	使用档名，在 f 之后要立即接档名</span><br><span class="line"><span class="meta">#</span> -tf	查看归档文件里面的文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# ls</span><br><span class="line">abc  mytest.txt</span><br><span class="line">[root@localhost tmp]# gzip mytest.txt</span><br><span class="line">[root@localhost tmp]# ls</span><br><span class="line">abc  mytest.txt.gz # 可以发现压缩后原来的文件删除了</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# gzip -d mytest.txt.gz</span><br><span class="line">[root@localhost tmp]# ls</span><br><span class="line">abc  mytest.txt  # 解压</span><br></pre></td></tr></table></figure>
+<h3 id="Linux-编辑器"><a href="#Linux-编辑器" class="headerlink" title="Linux 编辑器"></a>Linux 编辑器</h3><p>Linux 默认的编辑器 Vim，功能强大，其实有一款编辑器叫 sublime text 的，跟 Vim 非常像，共有三种模式：输入模式、命令模式、末行模式，推荐李强老师的讲sublime text 使用的 一个视频，sublime text 会用了，Vim 也就会用了。</p>
+<p><code>:q</code> 直接退出vi</p>
+<p><code>:wq</code> 保存后退出vi ，并可以新建文件</p>
+<p><code>:q!</code> 强制退出</p>
+<p><code>:w file</code> 将当前内容保存成某个文件</p>
+<p><code>:set number</code> 在编辑文件显示行号</p>
+<p><code>:set nonumber</code> 在编辑文件不显示行号</p>
+<h3 id="查看文件和目录的权限"><a href="#查看文件和目录的权限" class="headerlink" title="查看文件和目录的权限"></a>查看文件和目录的权限</h3><p><code>ls –al</code> 使用 ls 不带参数只显示文件名称，通过 <code>ls –al</code> 可以显示文件或者目录的权限信息。</p>
+<p><code>ls -l 文件名</code> 显示信息包括：文件类型 (<code>d</code> 目录，<code>-</code> 普通文件，<code>l</code> 链接文件)，文件权限，文件的用户，文件的所属组，文件的大小，文件的创建时间，文件的名称</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# ls -al</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x.  3 root root  35 Dec 30 22:55 .</span><br><span class="line">drwxr-xr-x. 14 root root 156 Dec 30 22:18 ..</span><br><span class="line">drwxr-xr-x.  3 root root  38 Dec 30 22:29 abc</span><br><span class="line">-rw-r--r--.  1 root root  40 Dec 30 22:36 mytest.txt</span><br><span class="line">[root@localhost tmp]# ls -l</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 3 root root 38 Dec 30 22:29 abc</span><br><span class="line">-rw-r--r--. 1 root root 40 Dec 30 22:36 mytest.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-</code>：普通文件</li>
+<li><code>rwx</code>：说明用户 root 有读写权限，也有运行权限</li>
+<li><code>r-x</code>：表示用户组 root 有读权限，没有写，但有运行的权限</li>
+<li><code>r--</code>：其他用户只有读权限，没有写权限和运行的权限</li>
+</ul>
+
+          <br>
+<p>hogen</p>
+<div class="date">2019-12-24</div>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">Powered by hogenlaw</span>
+</footer>
+
+  </body>
+</html>
