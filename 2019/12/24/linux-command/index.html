@@ -163,61 +163,61 @@
 <thead>
 <tr>
 <th>命令</th>
-<th>说明</th>
+<th style="text-align:center">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>df</td>
-<td>显示文件系统磁盘空间的使用情况</td>
+<td style="text-align:center">显示文件系统磁盘空间的使用情况</td>
 </tr>
 <tr>
 <td>who</td>
-<td>显示在线登录用户</td>
+<td style="text-align:center">显示在线登录用户</td>
 </tr>
 <tr>
 <td>hostname</td>
-<td>显示主机名称</td>
+<td style="text-align:center">显示主机名称</td>
 </tr>
 <tr>
 <td>uname</td>
-<td>显示系统信息</td>
+<td style="text-align:center">显示系统信息</td>
 </tr>
 <tr>
 <td>top</td>
-<td>显示当前系统中耗费资源最多的进程</td>
+<td style="text-align:center">显示当前系统中耗费资源最多的进程</td>
 </tr>
 <tr>
 <td>ps</td>
-<td>显示瞬间的进程状态</td>
+<td style="text-align:center">显示瞬间的进程状态</td>
 </tr>
 <tr>
 <td>du</td>
-<td>显示指定的文件（目录）已使用的磁盘空间的总量</td>
+<td style="text-align:center">显示指定的文件（目录）已使用的磁盘空间的总量</td>
 </tr>
 <tr>
 <td>free</td>
-<td>显示当前内存和交换空间的使用情况</td>
+<td style="text-align:center">显示当前内存和交换空间的使用情况</td>
 </tr>
 <tr>
 <td>ifconfig</td>
-<td>显示网络接口信息</td>
+<td style="text-align:center">显示网络接口信息</td>
 </tr>
 <tr>
 <td>ping</td>
-<td>测试网络的连通性</td>
+<td style="text-align:center">测试网络的连通性</td>
 </tr>
 <tr>
 <td>netstat</td>
-<td>显示网络状态信息</td>
+<td style="text-align:center">显示网络状态信息</td>
 </tr>
 <tr>
 <td>clear</td>
-<td>清屏</td>
+<td style="text-align:center">清屏</td>
 </tr>
 <tr>
 <td>kill</td>
-<td>杀死一个进程</td>
+<td style="text-align:center">杀死一个进程</td>
 </tr>
 </tbody>
 </table>
@@ -229,8 +229,7 @@
 <h4 id="压缩命令"><a href="#压缩命令" class="headerlink" title="压缩命令"></a>压缩命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# tar -zcvf test.tar.gz test\</span><br><span class="line">[root@localhost tmp]# tar -zxvf test.tar.gz</span><br><span class="line"><span class="meta">#</span> -c	建立一个归档文件的参数指令</span><br><span class="line"><span class="meta">#</span> -x	解开一个归档文件的参数指令</span><br><span class="line"><span class="meta">#</span> -z	是否需要用 gzip 压缩</span><br><span class="line"><span class="meta">#</span> -j	是否需要用 bzip2 压缩</span><br><span class="line"><span class="meta">#</span> -v	压缩的过程中显示文件</span><br><span class="line"><span class="meta">#</span> -f	使用档名，在 f 之后要立即接档名</span><br><span class="line"><span class="meta">#</span> -tf	查看归档文件里面的文件</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# ls</span><br><span class="line">abc  mytest.txt</span><br><span class="line">[root@localhost tmp]# gzip mytest.txt</span><br><span class="line">[root@localhost tmp]# ls</span><br><span class="line">abc  mytest.txt.gz # 可以发现压缩后原来的文件删除了</span><br></pre></td></tr></table></figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]# gzip -d mytest.txt.gz</span><br><span class="line">[root@localhost tmp]# ls</span><br><span class="line">abc  mytest.txt  # 解压</span><br></pre></td></tr></table></figure>
-<h3 id="Linux-编辑器"><a href="#Linux-编辑器" class="headerlink" title="Linux 编辑器"></a>Linux 编辑器</h3><p>Linux 默认的编辑器 Vim，功能强大，其实有一款编辑器叫 sublime text 的，跟 Vim 非常像，共有三种模式：输入模式、命令模式、末行模式，推荐李强老师的讲sublime text 使用的 一个</p>
-<p>，sublime text 会用了，Vim 也就会用了。</p>
+<h3 id="Linux-编辑器"><a href="#Linux-编辑器" class="headerlink" title="Linux 编辑器"></a>Linux 编辑器</h3><p>Linux 默认的编辑器 Vim，功能强大，其实有一款编辑器叫 sublime text 的，跟 Vim 非常像，共有三种模式：输入模式、命令模式、末行模式，推荐李强老师的讲sublime text 使用的 <a href="http://www.yzmedu.com/course/32" target="_blank" rel="noopener">一个视频</a>，sublime text 会用了，Vim 也就会用了。</p>
 <p><code>:q</code> 直接退出vi</p>
 <p><code>:wq</code> 保存后退出vi ，并可以新建文件</p>
 <p><code>:q!</code> 强制退出</p>
