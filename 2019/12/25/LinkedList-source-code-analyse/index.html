@@ -36,14 +36,14 @@
       <section class="paging">
   
     <div class="left">
-      <a href="/2019/12/16/Map-source-code-analyse/">
+      <a href="/2019/12/26/Map-source-code-analyse/">
         ‹
       </a>
     </div>
   
   
     <div class="right">
-      <a href="/2019/12/15/arraylist-source-code-analyse/">
+      <a href="/2019/12/24/spring-source-code-learning/">
         ›
       </a>
     </div>
@@ -53,10 +53,10 @@
       <div class="content">
         <section class="post">
           <h1>
-            <!-- <div class='date'>2019-12-15</div> --><!--正文的日期-->
+            <!-- <div class='date'>2019-12-25</div> --><!--正文的日期-->
             LinkedList 源码分析
           </h1>
-          <h4 id="LinkedList-实现类"><a href="#LinkedList-实现类" class="headerlink" title="LinkedList 实现类"></a>LinkedList 实现类</h4><p><img src="/2019/12/15/LinkedList-source-code-analyse/1576422340559.png" alt="1576422340559"></p>
+          <h4 id="LinkedList-实现类"><a href="#LinkedList-实现类" class="headerlink" title="LinkedList 实现类"></a>LinkedList 实现类</h4><p><img src="/2019/12/25/LinkedList-source-code-analyse/1576422340559.png" alt="1576422340559"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line">  <span class="keyword">transient</span> Node&lt;E&gt; last;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">        E item;</span><br><span class="line">        Node&lt;E&gt; next;</span><br><span class="line">        Node&lt;E&gt; prev;</span><br><span class="line">        Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">            <span class="keyword">this</span>.item = element;</span><br><span class="line">            <span class="keyword">this</span>.next = next;</span><br><span class="line">            <span class="keyword">this</span>.prev = prev;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，LinkedList 底层基于双向链表来实现。</p>
 <p>在 JDK1.7 之后，LinkedList 做了很大的改动，对链表进行了优化。链表的 Entry 结构换成了 Node，内部组成基本没有改变，但 LinkedList 里面的 header 属性去掉了，新增了一个 Node 结构的 first 属性和一个 Node 结构的 last 属性。这样做有以下几点好处：</p>
@@ -81,7 +81,7 @@
 
           <br>
 <p>hogen</p>
-<div class="date">2019-12-15</div>
+<div class="date">2019-12-25</div>
 
         </section>
       </div>

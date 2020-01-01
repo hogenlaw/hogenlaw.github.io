@@ -36,14 +36,14 @@
       <section class="paging">
   
     <div class="left">
-      <a href="/2019/12/31/2019-summary/">
+      <a href="/2019/12/18/Data-Structures-learning/">
         ‹
       </a>
     </div>
   
   
     <div class="right">
-      <a href="/2019/12/24/linux-command/">
+      <a href="/2019/12/16/spring-tx/">
         ›
       </a>
     </div>
@@ -53,7 +53,7 @@
       <div class="content">
         <section class="post">
           <h1>
-            <!-- <div class='date'>2019-12-25</div> --><!--正文的日期-->
+            <!-- <div class='date'>2019-12-16</div> --><!--正文的日期-->
             docker
           </h1>
           <h3 id="docker的安装"><a href="#docker的安装" class="headerlink" title="docker的安装"></a>docker的安装</h3><p>Docker 需要两个重要的安装要求：</p>
@@ -219,7 +219,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mytomcat]# docker build -t mytomcat .</span><br><span class="line">Sending build context to Docker daemon  2.048kB</span><br><span class="line">Step 1/4 : from tomcat</span><br><span class="line"> ---&gt; 6fa48e047721</span><br><span class="line">Step 2/4 : workdir /usr/local/tomcat/webapps/ROOT/</span><br><span class="line"> ---&gt; Running in e9267120efc5</span><br><span class="line">Removing intermediate container e9267120efc5</span><br><span class="line"> ---&gt; cd9b6d90f7ba</span><br><span class="line">Step 3/4 : run rm -rf *</span><br><span class="line"> ---&gt; Running in bf40a7fa22b8</span><br><span class="line">Removing intermediate container bf40a7fa22b8</span><br><span class="line"> ---&gt; 125efb0662f1</span><br><span class="line">Step 4/4 : run echo &quot;Hello, Docker, Hi, HeGuang&quot; &gt; /usr/local/tomcat/webapps/ROOT/index.html</span><br><span class="line"> ---&gt; Running in 221b4a3834f6</span><br><span class="line">Removing intermediate container 221b4a3834f6</span><br><span class="line"> ---&gt; 526d8e59aecf</span><br><span class="line">Successfully built 526d8e59aecf</span><br><span class="line">Successfully tagged mytomcat:latest</span><br></pre></td></tr></table></figure>
 <p>查看构建的镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mytomcat]# docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">mytomcat            latest              526d8e59aecf        12 seconds ago      507MB</span><br><span class="line">tomcat              latest              6fa48e047721        2 weeks ago         507MB</span><br><span class="line">mysql               5.7                 1e4405fe1ea9        5 weeks ago         437MB</span><br><span class="line">[root@localhost mytomcat]# docker run -it mytomcat bash</span><br><span class="line">root@ff63ff945c8f:/usr/local/tomcat/webapps/ROOT# ls -al</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 1 root root 24 Dec 31 12:16 .</span><br><span class="line">drwxr-xr-x. 1 root root 18 Dec  7 19:21 ..</span><br><span class="line">-rw-r--r--. 1 root root 27 Dec 31 12:16 index.html</span><br><span class="line">root@ff63ff945c8f:/usr/local/tomcat/webapps/ROOT#</span><br></pre></td></tr></table></figure></p>
 <p>测试一波</p>
-<p><img src="/2019/12/25/docker/1577799017713.png" alt="1577799017713"></p>
+<p><img src="/2019/12/16/docker/1577799017713.png" alt="1577799017713"></p>
 <h4 id="镜像构建上下文（Context）"><a href="#镜像构建上下文（Context）" class="headerlink" title="镜像构建上下文（Context）"></a>镜像构建上下文（Context）</h4><p>如果注意，会看到 <code>docker build</code> 命令最后有一个 <code>.</code>。<code>.</code> 表示当前目录，而 <code>Dockerfile</code> 就在当前目录，因此不少初学者以为这个路径是在指定 <code>Dockerfile</code> 所在路径，这么理解其实是不准确的。如果对应上面的命令格式，你可能会发现，这是在指定<strong>上下文路径</strong>。那么什么是上下文呢？</p>
 <p>首先我们要理解 <code>docker build</code> 的工作原理。Docker 在运行时分为 Docker 引擎（也就是服务端守护进程）和客户端工具。Docker 的引擎提供了一组 REST API，被称为 <a href="https://docs.docker.com/engine/reference/api/docker_remote_api/" target="_blank" rel="noopener">Docker Remote API</a>，而如 <code>docker</code> 命令这样的客户端工具，则是通过这组 API 与 Docker 引擎交互，从而完成各种功能。因此，虽然表面上我们好像是在本机执行各种 <code>docker</code> 功能，但实际上，一切都是使用的远程调用形式在服务端（Docker 引擎）完成。也因为这种 C/S 设计，让我们操作远程服务器的 Docker 引擎变得轻而易举。</p>
 <p>当我们进行镜像构建的时候，并非所有定制都会通过 <code>RUN</code> 指令完成，经常会需要将一些本地文件复制进镜像，比如通过 <code>COPY</code> 指令、<code>ADD</code> 指令等。而 <code>docker build</code> 命令构建镜像，其实并非在本地构建，而是在服务端，也就是 Docker 引擎中构建的。那么在这种客户端/服务端的架构中，如何才能让服务端获得本地文件呢？</p>
@@ -242,7 +242,7 @@
 
           <br>
 <p>hogen</p>
-<div class="date">2019-12-25</div>
+<div class="date">2019-12-16</div>
 
         </section>
       </div>
