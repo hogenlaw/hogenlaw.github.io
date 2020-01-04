@@ -163,6 +163,10 @@
 <blockquote>
 <p><strong>runnable其实相对于一个task，并不具有线程的概念，如果你直接去调用runnable的run，其实就是相当于直接在主线程中执行了一个函数而已，并未开启线程去执行</strong></p>
 </blockquote>
+<h3 id="创建线程的几种方式"><a href="#创建线程的几种方式" class="headerlink" title="创建线程的几种方式"></a>创建线程的几种方式</h3><p>继承 Thread 和 实现 Runnable 这两种方式就不说了。</p>
+<p>实现 Callable 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FutureTask&lt;String&gt; futureTask = <span class="keyword">new</span> FutureTask&lt;&gt;(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"asdfsdf"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"HeGuang"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">new</span> Thread(futureTask).start();</span><br><span class="line">System.out.println(futureTask.get());</span><br></pre></td></tr></table></figure>
+<p>最后一种是从线程池里面取</p>
 
           <br>
 <p>hogen</p>
