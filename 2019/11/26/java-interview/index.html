@@ -43,7 +43,7 @@
   
   
     <div class="right">
-      <a href="/2019/05/28/create-value-by-information-gap/">
+      <a href="/2019/11/16/javaSE/">
         ›
       </a>
     </div>
@@ -143,7 +143,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hashtable</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">Dictionary</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcurrentHashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">ConcurrentMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576112165190.png" alt="1576112165190"></p>
+<p><img src="/2019/11/26/java-interview/5C1576112165190.png" alt="1576112165190"></p>
 <p>hashmap线程不安全，key，value可以为null</p>
 <p>hashtable线程安全，key, value不可以为null 用synchronized实现</p>
 <p>ConcurrentHashMap 线程安全，采用了 <code>CAS + synchronized</code> 来保证并发安全性。</p>
@@ -160,7 +160,7 @@
 <h4 id="索引有什么用？如何建索引？"><a href="#索引有什么用？如何建索引？" class="headerlink" title="索引有什么用？如何建索引？"></a>索引有什么用？如何建索引？</h4><p>索引可以加快数据库访问的效率，相当于给原来的记录作一个key-value的结构</p>
 <p>数据库里面索引是用树来做的，B+数</p>
 <p>ALTER TABLE &lt;表名&gt; ADD INDEX (&lt;字段&gt;);</p>
-<h4 id="ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。"><a href="#ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。" class="headerlink" title="ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。"></a>ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576069767237.png" alt="1576069767237"></p>
+<h4 id="ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。"><a href="#ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。" class="headerlink" title="ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。"></a>ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。</h4><p><img src="/2019/11/26/java-interview/5C1576069767237.png" alt="1576069767237"></p>
 <p>ArrayList底层基于数组实现，LinedList基于双向链表实现</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line">	<span class="comment">//.....</span></span><br><span class="line">  <span class="comment">//默认初始化容量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//对象数组</span></span><br><span class="line">    <span class="keyword">transient</span> Object[] elementData; </span><br><span class="line">    <span class="comment">//数组长度</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="comment">//......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>ArrayList 还实现了 Cloneable 接口和 Serializable 接口，所以他可以实现克隆和序列化。</p>
@@ -211,7 +211,7 @@
 <h4 id="JVM-GC，GC算法。"><a href="#JVM-GC，GC算法。" class="headerlink" title="JVM GC，GC算法。"></a>JVM GC，GC算法。</h4><p>垃圾回收，顾名思义是将已经分配出去的但不再使用的内存回收起来以便再次分配，此处的垃圾指的是死亡的对象占据的空间，大体分为两个步骤 : 先标记哪些对象已死亡，再进行垃圾回收</p>
 <h5 id="判断对象是否死亡x"><a href="#判断对象是否死亡x" class="headerlink" title="判断对象是否死亡x`"></a>判断对象是否死亡x`</h5><h6 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h6><p>为每个对象添加一个引用计数器，用来统计指向该对象的引用个数，一旦某个对象的引用计数器为0，则说明该对象已死亡，可以回收了</p>
 <h6 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h6><p>目前 <strong>Java 虚拟机的主流垃圾回收器采取的是可达性分析算法</strong>。这个算法的实质在于将一系列 GC Roots 作为初始的存活对象合集（live set），然后从该合集出发，探索所有能够被该集合引用到的对象，并将其加入到该集合中，这个过程我们也称之为标记（mark）。最终，未被探索到的对象便是死亡的，是可以回收的。</p>
-<h5 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h5><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576112958474.png" alt="1576112958474"></p>
+<h5 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h5><p><img src="/2019/11/26/java-interview/5C1576112958474.png" alt="1576112958474"></p>
 <h6 id="清除（sweep）"><a href="#清除（sweep）" class="headerlink" title="清除（sweep）"></a>清除（sweep）</h6><p>把死亡对象所占据的内存标记为空闲内存，并记录在一个空闲列表（free list）之中。当需要新建对象时，内存管理模块便会从该空闲列表中寻找空闲内存，并划分给新建的对象。</p>
 <p>清除这种回收方式的原理及其简单，但是有两个缺点。一是会造成内存碎片。由于 Java 虚拟机的堆中对象必须是连续分布的，因此可能出现总空闲内存足够，但是无法分配的极端情况。</p>
 <h6 id="复制（copy）"><a href="#复制（copy）" class="headerlink" title="复制（copy）"></a>复制（copy）</h6><p>把内存区域分为两等分，分别用两个指针 from 和 to 来维护，并且只是用 from 指针指向的内存区域来分配内存。当发生垃圾回收时，便把存活的对象复制到 to 指针指向的内存区域中，并且交换 from 指针和 to 指针的内容。</p>
@@ -223,7 +223,7 @@
 <h4 id="什么情况会出现Full-GC，什么情况会出现yong-GC。"><a href="#什么情况会出现Full-GC，什么情况会出现yong-GC。" class="headerlink" title="什么情况会出现Full GC，什么情况会出现yong GC。"></a>什么情况会出现Full GC，什么情况会出现yong GC。</h4><p>通常情况下，由于新生代空间较小，Eden 区很快被填满，就会导致频繁 Minor GC，</p>
 <p>由于堆内存空间不足或老年代对象太多，会触发 Full GC</p>
 <h4 id="如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？"><a href="#如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？" class="headerlink" title="如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？"></a>如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？</h4><p> 不会立即释放对象占用的内存。   如果对象的引用被置为null，只是断开了当前线程栈帧中对该对象的引用关系，而   垃圾收集器是运行在后台的线程，只有当用户线程运行到安全点(safe point)或者安全区域才会扫描对象引用关系，扫描到对象没有被引用则会标记对象，这时候仍然不会立即释放该对象内存，因为有些对象是可恢复的（在   finalize方法中恢复引用   ）。只有确定了对象无法恢复引用的时候才会清除对象内存。  </p>
-<h4 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576076580679.png" alt="1576076580679"></p>
+<h4 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h4><p><img src="/2019/11/26/java-interview/5C1576076580679.png" alt="1576076580679"></p>
 <p><strong>本地方法栈：</strong></p>
 <p>带有native关键字的方法称为本地方法，说明java的作用范围到达不了，会进入本地方法栈，通过JNI调用本地方法接口，而JNI的作用就是为了扩展java的使用，融合不同的编程语言为java所用，java诞生之初正是C/C++横行的时候，为了立足不得已为之，因此专门在内存中开辟了一块标记区域 ，native method stack，登记native方法</p>
 <p>通常方法区中有静态常量池和运行时常量池，静态常量池主要存储的是字面量以及符号引用等信息，而运行时常量池存储的是类运行加载时生成的直接引用等信息。静态常量池也包括了我们说的字符串常量池。</p>
@@ -236,7 +236,7 @@
 <h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><p>HTTP 是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范</p>
 <h4 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h4><p>TCP 协议是“Transmission Control Protocol”的缩写，意思是“传输控制协议”，它位于 IP 协议之上，基于 IP 协议提供可靠的、字节流形式的通信，是 HTTP 协议得以实现的基础。<br>“可靠”是指保证数据不丢失，“字节流”是指保证数据完整，所以在 TCP 协议的两端可以如同操作文件一样访问传输的数据，就像是读写在一个密闭的管道里“流动”的字节。</p>
 <h4 id="一致性Hash算法"><a href="#一致性Hash算法" class="headerlink" title="一致性Hash算法"></a>一致性Hash算法</h4><p><a href="https://blog.csdn.net/bntX2jSQfEHy7/article/details/79549368" target="_blank" rel="noopener">https://blog.csdn.net/bntX2jSQfEHy7/article/details/79549368</a></p>
-<h4 id="JVM如何加载字节码文件-1"><a href="#JVM如何加载字节码文件-1" class="headerlink" title="JVM如何加载字节码文件"></a>JVM如何加载字节码文件</h4><h4 id="类加载器如何卸载字节码"><a href="#类加载器如何卸载字节码" class="headerlink" title="类加载器如何卸载字节码"></a>类加载器如何卸载字节码</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576138154595.png" alt="1576138154595"></p>
+<h4 id="JVM如何加载字节码文件-1"><a href="#JVM如何加载字节码文件-1" class="headerlink" title="JVM如何加载字节码文件"></a>JVM如何加载字节码文件</h4><h4 id="类加载器如何卸载字节码"><a href="#类加载器如何卸载字节码" class="headerlink" title="类加载器如何卸载字节码"></a>类加载器如何卸载字节码</h4><p><img src="/2019/11/26/java-interview/5C1576138154595.png" alt="1576138154595"></p>
 <p>在类使用完之后，满足下面的情形，会被卸载：</p>
 <ol>
 <li><p>该类在堆中的所有实例都已被回收，即在堆中不存在该类的实例对象。</p>
@@ -247,7 +247,7 @@
 <p>如果类满足卸载条件，JVM就在GC的时候，对类进行卸载，即在方法区清除类的信息。</p>
 </li>
 </ol>
-<h4 id="IO和NIO的区别，NIO优点"><a href="#IO和NIO的区别，NIO优点" class="headerlink" title="IO和NIO的区别，NIO优点"></a>IO和NIO的区别，NIO优点</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576221639996.png" alt="1576221639996"></p>
+<h4 id="IO和NIO的区别，NIO优点"><a href="#IO和NIO的区别，NIO优点" class="headerlink" title="IO和NIO的区别，NIO优点"></a>IO和NIO的区别，NIO优点</h4><p><img src="/2019/11/26/java-interview/5C1576221639996.png" alt="1576221639996"></p>
 <p>Java IO 方式有很多种，基于不同的 IO 抽象模型和交互方式，可以进行简单区分</p>
 <p>首先，传统的 java.io 包，它基于流模型实现，提供了我们最熟知的一些 IO 功能，比如 File 抽象、输入输出流等。交互方式是同步、阻塞的方式，也就是说，在读取输入流或者写入输出流时，在读、写动作完成之前，线程会一直阻塞在那里，它们之间的调用是可靠的线性顺序。BIO(blocking IO)</p>
 <p>java.io 包的好处是代码比较简单、直观，缺点则是 IO 效率和扩展性存在局限性，容易成为应用性能的瓶颈。很多时候，人们也把 java.net 下面提供的部分网络 API，比如 Socket、ServerSocket、HttpURLConnection 也归类到同步阻塞 IO 类库，因为网络通信同样是 IO 行为。</p>
@@ -257,13 +257,13 @@
 <p><strong>这里“多路”指的是多个网络连接，“复用”指的是复用同一个线程</strong></p>
 </blockquote>
 <p>IO 都是同步阻塞模式，所以需要多线程以实现多任务处理。而 NIO 则是利用了单线程轮询事件的机制，通过高效地定位就绪的 Channel，来决定做什么，仅仅 select 阶段是阻塞的，可以有效避免大量客户端连接时，频繁线程切换带来的问题，应用的扩展能力有了非常大的提高</p>
-<p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576224285541.png" alt="1576224285541"></p>
+<p><img src="/2019/11/26/java-interview/5C1576224285541.png" alt="1576224285541"></p>
 <h4 id="Java线程池的实现原理，keepAliveTime等参数的作用。"><a href="#Java线程池的实现原理，keepAliveTime等参数的作用。" class="headerlink" title="Java线程池的实现原理，keepAliveTime等参数的作用。"></a>Java线程池的实现原理，keepAliveTime等参数的作用。</h4><p>在 HotSpot VM 的线程模型中，Java 线程被一对一映射为内核线程。Java 在使用线程执行程序时，需要创建一个内核线程；当该 Java 线程被终止时，这个内核线程也会被回收。因此 Java 线程的创建与销毁将会消耗一定的计算机资源，从而增加系统的性能开销。</p>
 <p>除此之外，大量创建线程同样会给系统带来性能问题，因为内存和 CPU 资源都将被线程抢占，如果处理不当，就会发生内存溢出、CPU 使用率超负荷等问题。</p>
 <p>为了解决上述两类问题，Java 提供了线程池概念，对于频繁创建线程的业务场景，线程池可以创建固定的线程数量，并且在操作系统底层，轻量级进程将会把这些线程映射到内核。</p>
 <p>线程池可以提高线程复用，又可以固定最大线程使用量，防止无限制地创建线程。当程序提交一个任务需要一个线程时，会去线程池中查找是否有空闲的线程，若有，则直接使用线程池中的线程工作，若没有，会去判断当前已创建的线程数量是否超过最大线程数量，如未超过，则创建新线程，如已超过，则进行排队等待或者直接抛出异常。</p>
 <h4 id="HTTP连接池实现原理"><a href="#HTTP连接池实现原理" class="headerlink" title="HTTP连接池实现原理"></a>HTTP连接池实现原理</h4><h4 id="数据库连接池实现原理"><a href="#数据库连接池实现原理" class="headerlink" title="数据库连接池实现原理"></a>数据库连接池实现原理</h4><p>数据库连接池的基本思想就是为数据库连接建立一个“缓冲池”。预先在缓冲池中放入一定数量的连接，当需要建立数据库连接时，只需从“缓冲池”中取出一个，使用完毕之后再放回去。我们可以通过设定连接池最大连接数来防止系统无尽的与数据库连接。更为重要的是我们可以通过连接池的管理机制监视数据库的连接的数量﹑使用情况，为系统开发﹑测试及性能调整提供依据。</p>
-<h4 id="数据库的实现原理"><a href="#数据库的实现原理" class="headerlink" title="数据库的实现原理"></a>数据库的实现原理</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576218633498.png" alt="1576218633498"></p>
+<h4 id="数据库的实现原理"><a href="#数据库的实现原理" class="headerlink" title="数据库的实现原理"></a>数据库的实现原理</h4><p><img src="/2019/11/26/java-interview/5C1576218633498.png" alt="1576218633498"></p>
 <p>mysql 8 去除了 查询缓存</p>
 <p><strong>连接器</strong>负责跟客户端建立连接、获取权限、维持和管理连接，建立连接的过程通常是比较复杂的，所以我建议你在使用中要尽量减少建立连接的动作，也就是尽量使用长连接。</p>
 <blockquote>
@@ -285,7 +285,7 @@
 <h4 id="Spring下的注解？"><a href="#Spring下的注解？" class="headerlink" title="Spring下的注解？"></a><strong>Spring下的注解？</strong></h4><p>用于创建对象的：Component、Repository、Service、Controller<br>用于注入数据的：Autowired、Qualifier(和Autowired一起使用，指定bean名称)、Resource(name=”beanId”)<br>如果是基本类型和String类型用: Value<br>用于改变bean作用范围的：Scope(value=”singleton”)<br>和生命周期相关的：《了解》</p>
 <h4 id="Spring的IOC容器初始化流程"><a href="#Spring的IOC容器初始化流程" class="headerlink" title="Spring的IOC容器初始化流程"></a>Spring的IOC容器初始化流程</h4><p>加载配置文件</p>
 <p>控制反转(IOC)是一种设计思想，DI是实现IOC的一种方法，也有人认为DI只是IoC的另一种说法，没有IoC的程序中，我们使用面向对象编程，对象的创建与对象间的依赖关系完全硬编码在程序中，对象的创建由程序自己控制，而控制反转后将对象的创建转移给第三方，个人认为所谓的控制反转就是：获得依赖对象的方式反转了</p>
-<p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576229025635.png" alt="1576229025635"></p>
+<p><img src="/2019/11/26/java-interview/5C1576229025635.png" alt="1576229025635"></p>
 <h4 id="Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean"><a href="#Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean" class="headerlink" title="Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean"></a>Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean</h4><h4 id="Spring-AOP实现原理"><a href="#Spring-AOP实现原理" class="headerlink" title="Spring AOP实现原理"></a>Spring AOP实现原理</h4><p>通俗的讲，就是利用动态代理技术，在不修改原有代码的基础上对原有方法增强</p>
 <h4 id="消息中间件是如何实现的，技术难点有哪些"><a href="#消息中间件是如何实现的，技术难点有哪些" class="headerlink" title="消息中间件是如何实现的，技术难点有哪些"></a>消息中间件是如何实现的，技术难点有哪些</h4><h3 id="Mybatis面试题"><a href="#Mybatis面试题" class="headerlink" title="Mybatis面试题"></a><strong>Mybatis面试题</strong></h3><h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><p>#{}是预编译处理，${}是字符串替换。<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号(即占位符)，调用PreparedStatement的set方法来赋值；</p>
 <p>Mybatis在处理时，就是把{}时，就是把时，就是把{}替换成变量的值(调用set/get方法)。</p>
