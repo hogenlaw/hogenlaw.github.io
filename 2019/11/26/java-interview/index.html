@@ -1,0 +1,420 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>java-interview - hogen</title>
+    <link href="/images/fav.png" rel="shortcut icon">
+<link href="undefined" rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/scribble.png" alt="Home" width="53" height="59"></a>
+  <p>hogen</p>
+  <p>Follow Excellence. Success will chase you.</p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2019/11/29/generic/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2019/05/28/create-value-by-information-gap/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <h1>
+            <!-- <div class='date'>2019-11-26</div> --><!--正文的日期-->
+            java-interview
+          </h1>
+          <h3 id="基础题目"><a href="#基础题目" class="headerlink" title="基础题目"></a>基础题目</h3><h4 id="Java支持的数据类型有哪些？什么是自动拆装箱？"><a href="#Java支持的数据类型有哪些？什么是自动拆装箱？" class="headerlink" title="Java支持的数据类型有哪些？什么是自动拆装箱？"></a><strong>Java支持的数据类型有哪些？什么是自动拆装箱？</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer i = <span class="number">2</span>;<span class="comment">//自动装箱</span></span><br><span class="line"><span class="keyword">int</span> j = i;<span class="comment">//自动拆箱</span></span><br></pre></td></tr></table></figure>
+<p>反编译后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">   Code:</span><br><span class="line">     stack=1, locals=3, args_size=1</span><br><span class="line">        0: iconst_2</span><br><span class="line">        1: invokestatic  #2                  // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;</span><br><span class="line">        4: astore_1</span><br><span class="line">        5: aload_1</span><br><span class="line">        6: invokevirtual #3                  // Method java/lang/Integer.intValue:()I</span><br><span class="line">        9: istore_2</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>从上面反编译后的代码可以看出，int的自动装箱都是通过<code>Integer.valueOf()</code>方法来实现的，Integer的自动拆箱都是通过<code>integer.intValue</code>来实现的</p>
+<h4 id="Override和Overload区别，Overloaded的方法是否可以改变返回值的类型"><a href="#Override和Overload区别，Overloaded的方法是否可以改变返回值的类型" class="headerlink" title="Override和Overload区别，Overloaded的方法是否可以改变返回值的类型?"></a>Override和Overload区别，Overloaded的方法是否可以改变返回值的类型?</h4><p>Overload是重载的意思，</p>
+<p>Override是覆盖的意思，也就是重写。</p>
+<p>重载Overload表示同一个类中可以有多个名称相同的方法，但这些方法的参数列表各不相同（即参数个数或类型不同）。</p>
+<p>重写Override表示子类中的方法可以与父类中的某个方法的名称和参数完全相同，通过子类创建的实例对象调用这个方法时，将调用子类中的定义方法，这相当于把父类中定义的那个完全相同的方法给覆盖了，这也是面向对象编程的多态性的一种表现。</p>
+<p>如果几个Overloaded的方法的参数列表不一样，它们的返回者类型当然也可以不一样。</p>
+<p>如果两个方法的参数列表完全一样，这是不行的(如果一个参数类型是 int 另一个是 float，这样可行)。</p>
+<h4 id="接口和抽象类有什么区别"><a href="#接口和抽象类有什么区别" class="headerlink" title="接口和抽象类有什么区别"></a><a href="https://time.geekbang.org/column/article/165103" target="_blank" rel="noopener">接口和抽象类有什么区别</a></h4><p>他们都不能实例化对象，都可以包含抽象方法。</p>
+<p>区别：</p>
+<p>1、抽象类和接口都不能直接实例化，如果要实例化，抽象类变量必须指向实现所有抽象方法的子类对象，接口变量必须指向实现所有接口方法的类对象。</p>
+<p>2、抽象类要被子类继承，接口要被类实现。</p>
+<p>3、接口只能做方法申明，抽象类中可以做方法申明，也可以做方法实现</p>
+<p>4、接口里定义的变量只能是公共的静态的常量，抽象类中的变量是普通变量。</p>
+<p>5、抽象类里的抽象方法必须全部被子类所实现，如果子类不能全部实现父类抽象方法，那么该子类只能是抽象类。同样，一个实现接口的时候，如不能全部实现接口方法，那么该类也只能为抽象类。</p>
+<p>6、抽象方法只能申明，不能实现，接口是设计的结果 ，抽象类是重构的结果</p>
+<p>7、抽象类里可以没有抽象方法</p>
+<p>8、如果一个类里有抽象方法，那么这个类只能是抽象类</p>
+<p>9、抽象方法要被实现，所以不能是静态的，也不能是私有的。</p>
+<p>10、接口可继承接口，并可多继承接口，但类只能单根继承。</p>
+<h4 id="什么是死锁-deadlock-？"><a href="#什么是死锁-deadlock-？" class="headerlink" title="什么是死锁(deadlock)？"></a>什么是死锁(deadlock)？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">死锁 :是指两个或两个以上的进程在执行过程中,因争夺资源而造成的一种互相等待的现象,若无外力作用,它们都将无法推进下去。</span><br><span class="line">产生死锁的四个必要条件：</span><br><span class="line">　　（``1``） 互斥条件：一个资源每次只能被一个进程使用。</span><br><span class="line">　　（``2``） 请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。</span><br><span class="line">　　（``3``） 不剥夺条件:进程已获得的资源，在末使用完之前，不能强行剥夺。</span><br><span class="line">　　（``4``） 循环等待条件:若干进程之间形成一种头尾相接的循环等待资源关系。</span><br><span class="line">  这四个条件是死锁的必要条件，只要系统发生死锁，这些条件必然成立，而只要上述条件之</span><br><span class="line">  一不满足，就不会发生死锁。</span><br><span class="line">  死锁的解除与预防：</span><br><span class="line">  理解了死锁的原因，尤其是产生死锁的四个必要条件，就可以最大可能地避免、预防和</span><br><span class="line">  解除死锁。所以，在系统设计、进程调度等方面注意如何不让这四个必要条件成立，如何确</span><br><span class="line">  定资源的合理分配算法，避免进程永久占据系统资源。此外，也要防止进程在处于等待状态</span><br><span class="line">  的情况下占用资源。因此，对资源的分配要给予合理的规划。</span><br></pre></td></tr></table></figure>
+<h4 id="Java线程的状态"><a href="#Java线程的状态" class="headerlink" title="Java线程的状态"></a>Java线程的状态</h4><p>线程有新建、就绪、运行、阻塞、死亡五种状态，在 Java JDK的Thread类内部类State明确定义了如下几种线程状态</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> State &#123;</span><br><span class="line">    NEW,</span><br><span class="line">    RUNNABLE,</span><br><span class="line">    BLOCKED,</span><br><span class="line"></span><br><span class="line">    WAITING,</span><br><span class="line"></span><br><span class="line">    TIMED_WAITING,</span><br><span class="line"></span><br><span class="line">    TERMINATED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="什么是迭代器-Iterator-？"><a href="#什么是迭代器-Iterator-？" class="headerlink" title="什么是迭代器(Iterator)？"></a>什么是迭代器(Iterator)？</h4><p>迭代器是一种设计模式，它是一个对象，提供一种方法，顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。所谓聚合是指一组对象的组合结构，比如：Java 中的集合、数组等。</p>
+<p>Java中的Iterator功能比较简单，并且只能单向移动：<br>(1) 使用方法iterator()要求容器返回一个Iterator。第一次调用Iterator的next()方法时，它返回序列的第一个元素。注意：iterator()方法是java.lang.Iterable接口,被Collection继承。</p>
+<p>(2) 使用next()获得序列中的下一个元素。</p>
+<p>(3) 使用hasNext()检查序列中是否还有元素。</p>
+<p>(4) 使用remove()将迭代器新返回的元素删除。</p>
+<p>Iterator是Java迭代器最简单的实现，为List设计的ListIterator具有更多的功能，它可以从两个方向遍历List，也可以从List中插入和删除元素。</p>
+<h4 id="进程和线程的区别，进程间如何通讯，线程间如何通讯"><a href="#进程和线程的区别，进程间如何通讯，线程间如何通讯" class="headerlink" title="进程和线程的区别，进程间如何通讯，线程间如何通讯"></a>进程和线程的区别，进程间如何通讯，线程间如何通讯</h4><p><strong>进程</strong>：是具有一定独立功能的程序、它是系统进行资源分配和调度的一个独立单位，重点在系统调度和单独的单位，也就是说进程是可以独 立运行的一段程序。</p>
+<p><strong>线程</strong>：线程是进程的一个实体，是CPU调度和分派的基本单位，他是比进程更小的能独立运行的基本单位，线程自己基本上不拥有系统资源。在运行时，只是暂用一些计数器、寄存器和栈 </p>
+<p><strong>他们之间的关系</strong></p>
+<ul>
+<li><p>一个线程只能属于一个进程，而一个进程可以有多个线程，但至少有一个线程（通常说的主线程）。</p>
+</li>
+<li><p>资源分配给进程，同一进程的所有线程共享该进程的所有资源。</p>
+</li>
+<li><p>线程在执行过程中，需要协作同步。不同进程的线程间要利用消息通信的办法实现同步。</p>
+</li>
+<li>处理机分给线程，即真正在处理机上运行的是线程。</li>
+<li>线程是指进程内的一个执行单元，也是进程内的可调度实体。</li>
+</ul>
+<p><strong>从三个角度来剖析二者之间的区别</strong></p>
+<ul>
+<li><p>调度：线程作为调度和分配的基本单位，进程作为拥有资源的基本单位。</p>
+</li>
+<li><p>并发性：不仅进程之间可以并发执行，同一个进程的多个线程之间也可以并发执行。</p>
+</li>
+<li><p>拥有资源：进程是拥有资源的一个独立单位，线程不拥有系统资源，但可以访问隶属于进程的资源。</p>
+</li>
+</ul>
+<p><strong>多线程间通信方式：</strong></p>
+<ul>
+<li><p>共享变量</p>
+</li>
+<li><p>wait/notify机制</p>
+</li>
+<li><p>Lock/Condition机制</p>
+</li>
+<li><p>管道</p>
+</li>
+</ul>
+<p><strong>进程间通信方式</strong></p>
+<ul>
+<li><p>管道（Pipe）：管道可用于具有亲缘关系进程间的通信，允许一个进程和另一个与它有共同祖先的进程之间进行通信。</p>
+</li>
+<li><p>命名管道（named pipe）：命名管道克服了管道没有名字的限制，因此，除具有管道所具有的功能外，它还允许无亲缘关 系 进程间的通信。命名管道在文件系统中有对应的文件名。命名管道通过命令mkfifo或系统调用mkfifo来创建。</p>
+</li>
+<li><p>信号（Signal）：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送 信号给进程本身；linux除了支持Unix早期信号语义函数sigal外，还支持语义符合Posix.1标准的信号函数sigaction（实际上，该函数是基于BSD的，BSD为了实现可靠信号机制，又能够统一对外接口，用sigaction函数重新实现了signal函数）。</p>
+</li>
+<li><p>消息（Message）队列：消息队列是消息的链接表，包括Posix消息队列system V消息队列。有足够权限的进程可以向队列中添加消息，被赋予读权限的进程则可以读走队列中的消息。消息队列克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺</p>
+</li>
+<li><p>共享内存：使得多个进程可以访问同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。往往与其它通信机制，如信号量结合使用，来达到进程间的同步及互斥。</p>
+</li>
+<li><p>内存映射（mapped memory）：内存映射允许任何多个进程间通信，每一个使用该机制的进程通过把一个共享的文件映射到自己的进程地址空间来实现它。</p>
+</li>
+<li><p>信号量（semaphore）：主要作为进程间以及同一进程不同线程之间的同步手段。</p>
+</li>
+<li><p>套接口（Socket）：更为一般的进程间通信机制，可用于不同机器之间的进程间通信。起初是由Unix系统的BSD分支开发出来的，但现在一般可以移植到其它类Unix系统上：Linux和System V的变种都支持套接字</p>
+</li>
+</ul>
+<h4 id="HashMap的数据结构是什么？如何实现的。和HashTable，ConcurrentHashMap的区别"><a href="#HashMap的数据结构是什么？如何实现的。和HashTable，ConcurrentHashMap的区别" class="headerlink" title="HashMap的数据结构是什么？如何实现的。和HashTable，ConcurrentHashMap的区别"></a>HashMap的数据结构是什么？如何实现的。和HashTable，ConcurrentHashMap的区别</h4><p>数据结构：数组+链表(jdk1.8之后是数组+链表+红黑树)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hashtable</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">Dictionary</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcurrentHashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">ConcurrentMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576112165190.png" alt="1576112165190"></p>
+<p>hashmap线程不安全，key，value可以为null</p>
+<p>hashtable线程安全，key, value不可以为null 用synchronized实现</p>
+<p>ConcurrentHashMap 线程安全，采用了 <code>CAS + synchronized</code> 来保证并发安全性。</p>
+<h4 id="Cookie和Session的区别"><a href="#Cookie和Session的区别" class="headerlink" title="Cookie和Session的区别"></a>Cookie和Session的区别</h4><p>1…存储位置不同</p>
+<p>通常情况<br>Cookie的数据信息存放在客户端浏览器上。Session的数据信息存放在服务器上。</p>
+<p>2.存储容量不同</p>
+<p>通常情况<br>单个Cookie保存的数据≤4KB，一个站点最多保存20个Cookie。<br>对于Session并没有上限，但出于对服务器端的性能考虑，Session内不要存放过多的东西，并设置session删除机制</p>
+<p>6.服务器压力不同</p>
+<p>Session是保管在服务端的，每个用户都会产生一个Session，假如并发访问的用户十分多，会产生十分多的Session，耗费大量的内存<br>Cookie是保管在客户端，不占用服务器资源，对于并发用户十分多的网站，cookie是很好的选择</p>
+<p>8.跨域支持上的不同<br>Cookie 支持跨域名访问，例如，将 domain 属性设置为“.biaodianfu.com”，则以“.biaodianfu.com”为后缀的一切域名均能够访问该Cookie。跨域名Cookie如今被普遍用在网络中，例如，Google、Baidu、Sina等。<br>Session则不会支持跨域名访问。Session仅在它所在的域名内有效。</p>
+<blockquote>
+<p>使用 Session 技术，解决了一个用户的不同请求的数据共享问题(一个用户的同一个请求的不同servlet用request实现数据共享)。当用户第一次访问服务器，服务器回创建一个session对象给此用户，并将该 session 对象的 JSESSIONID 使用 cookie 技术存储到浏览器中，保证用户的其它请求能够获取到同一个车 session 对象，也保证了不同请求能够获取到共享的数据</p>
+</blockquote>
+<h4 id="索引有什么用？如何建索引？"><a href="#索引有什么用？如何建索引？" class="headerlink" title="索引有什么用？如何建索引？"></a>索引有什么用？如何建索引？</h4><p>索引可以加快数据库访问的效率，相当于给原来的记录作一个key-value的结构</p>
+<p>数据库里面索引是用树来做的，B+数</p>
+<p>ALTER TABLE &lt;表名&gt; ADD INDEX (&lt;字段&gt;);</p>
+<h4 id="ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。"><a href="#ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。" class="headerlink" title="ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。"></a>ArrayList是如何实现的，ArrayList和LinedList的区别？ArrayList如何实现扩容。</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576069767237.png" alt="1576069767237"></p>
+<p>ArrayList底层基于数组实现，LinedList基于双向链表实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line">	<span class="comment">//.....</span></span><br><span class="line">  <span class="comment">//默认初始化容量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//对象数组</span></span><br><span class="line">    <span class="keyword">transient</span> Object[] elementData; </span><br><span class="line">    <span class="comment">//数组长度</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="comment">//......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ArrayList 还实现了 Cloneable 接口和 Serializable 接口，所以他可以实现克隆和序列化。</p>
+<p><strong>为什么 elementData 被关键字 transizent 修饰？</strong></p>
+<p>这还得从“ArrayList 是基于数组实现“开始说起，由于 ArrayList 的数组是基于动态扩增的，所以并不是所有被分配的内存空间都存储了数据。如果采用外部序列化法实现数组的序列化，会序列化整个数组。ArrayList 为了避免这些没有存储数据的内存空间被序列化，内部提供了两个私有方法 writeObject 以及 readObject 来自我完成序列化与反序列化，从而在序列化与反序列化数组时节省了空间和时间。因此使用 transient 修饰数组，是防止对象数组被其他外部方法序列化。</p>
+<p><strong>ArrayList 新增元素</strong></p>
+<p>ArrayList 新增元素的方法有两种，一种是直接将元素加到数组的末尾，另外一种是添加元素到任意位置。两个方法的相同之处是在添加元素之前，都会先确认容量大小，如果容量够大，就不用进行扩容；如果容量不够大，就会按照原来数组的 1.5 倍大小进行扩容，在扩容之后需要将数组复制到新分配的内存地址。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    add(e, elementData, size);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e, Object[] elementData, <span class="keyword">int</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (s == elementData.length)</span><br><span class="line">        elementData = grow();</span><br><span class="line">    elementData[s] = e;</span><br><span class="line">    size = s + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> Object[] grow() &#123;</span><br><span class="line">    <span class="keyword">return</span> grow(size + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> Object[] grow(<span class="keyword">int</span> minCapacity) &#123;</span><br><span class="line">    <span class="keyword">return</span> elementData = Arrays.copyOf(elementData,  newCapacity(minCapacity));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">newCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);<span class="comment">//扩大到原来的1.5倍</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">            <span class="keyword">return</span> Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">        <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">        <span class="keyword">return</span> minCapacity;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (newCapacity - MAX_ARRAY_SIZE &lt;= <span class="number">0</span>)? newCapacity:hugeCapacity(minCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ArrayList 删除元素</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    Objects.checkIndex(index, size);<span class="comment">//检查索引是否在数组范围</span></span><br><span class="line">    <span class="keyword">final</span> Object[] es = elementData;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) E oldValue = (E) es[index];</span><br><span class="line">    fastRemove(es, index);</span><br><span class="line">    <span class="keyword">return</span> oldValue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fastRemove</span><span class="params">(Object[] es, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> newSize;</span><br><span class="line">    <span class="keyword">if</span> ((newSize = size - <span class="number">1</span>) &gt; i)</span><br><span class="line">        <span class="comment">//把要删除的元素和数组末尾元素对调，这样删除的时间复杂度是 O(1)</span></span><br><span class="line">        System.arraycopy(es, i + <span class="number">1</span>, es, i, newSize - i);</span><br><span class="line">    es[size = newSize] = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>LinkedList 实现类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">transient</span> Node&lt;E&gt; first;</span><br><span class="line">  <span class="keyword">transient</span> Node&lt;E&gt; last;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">        E item;</span><br><span class="line">        Node&lt;E&gt; next;</span><br><span class="line">        Node&lt;E&gt; prev;</span><br><span class="line">        Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">            <span class="keyword">this</span>.item = element;</span><br><span class="line">            <span class="keyword">this</span>.next = next;</span><br><span class="line">            <span class="keyword">this</span>.prev = prev;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 JDK1.7 之后，LinkedList 做了很大的改动，对链表进行了优化。链表的 Entry 结构换成了 Node，内部组成基本没有改变，但 LinkedList 里面的 header 属性去掉了，新增了一个 Node 结构的 first 属性和一个 Node 结构的 last 属性。这样做有以下几点好处：</p>
+<p>first/last 属性能更清晰地表达链表的链头和链尾概念；</p>
+<p>first/last 方式可以在初始化 LinkedList 的时候节省 new 一个 Entry；</p>
+<p>first/last 方式最重要的性能优化是链头和链尾的插入删除操作更加快捷了。</p>
+<p><strong>LinkedList 新增元素</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    linkLast(e);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; l = last;<span class="comment">//节点 l 充当了临时变量，保存上次 last 指向的那个节点的地址</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(l, e, <span class="keyword">null</span>);<span class="comment">//尾节点的后继指针总是null</span></span><br><span class="line">    last = newNode;<span class="comment">// last 地址更新，保存最新插入的节点的地址</span></span><br><span class="line">    <span class="keyword">if</span> (l == <span class="keyword">null</span>)</span><br><span class="line">        first = newNode;<span class="comment">//只有插入第一个节点时走这个if，所以首节点的前驱指针总是null</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        l.next = newNode;</span><br><span class="line">    size++;</span><br><span class="line">    modCount++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>LinkedList 任意位置新增元素</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">    checkPositionIndex(index);</span><br><span class="line">    <span class="keyword">if</span> (index == size)</span><br><span class="line">        linkLast(element);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        linkBefore(element, node(index));<span class="comment">//node(index)返回索引所在节点</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkBefore</span><span class="params">(E e, Node&lt;E&gt; succ)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert succ != null;</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; pred = succ.prev;<span class="comment">//succ为当前索引节点，pred指向了succ节点的前驱节点</span></span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, succ);</span><br><span class="line">    succ.prev = newNode;<span class="comment">//当前索引节点的前驱指针保存新节点地址</span></span><br><span class="line">    <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</span><br><span class="line">        first = newNode;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        pred.next = newNode;</span><br><span class="line">    size++;</span><br><span class="line">    modCount++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="HashSet和TreeSet有什么区别？"><a href="#HashSet和TreeSet有什么区别？" class="headerlink" title="HashSet和TreeSet有什么区别？"></a><strong>HashSet和TreeSet有什么区别？</strong></h4><p>先来看各自构造方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Set</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;(Math.max((<span class="keyword">int</span>) (c.size()/.<span class="number">75f</span>) + <span class="number">1</span>, <span class="number">16</span>));</span><br><span class="line">        addAll(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;(initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">    HashSet(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> dummy) &#123;</span><br><span class="line">        map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">NavigableSet</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(<span class="keyword">new</span> TreeMap&lt;E,Object&gt;());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeSet</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>();</span><br><span class="line">        addAll(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeSet</span><span class="params">(SortedSet&lt;E&gt; s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(s.comparator());</span><br><span class="line">        addAll(s);</span><br><span class="line">    &#125;</span><br><span class="line">    TreeSet(NavigableMap&lt;E,Object&gt; m) &#123;</span><br><span class="line">        <span class="keyword">this</span>.m = m;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1、TreeSet 是二差树实现的,Treeset中的数据是自动排好序的，不允许放入null值。 </p>
+<p>2、HashSet 是哈希表实现的,HashSet中的数据是无序的，可以放入null，但只能放入一个null，两者中的值都不能重复，就如数据库中唯一约束。 </p>
+<p>3、HashSet要求放入的对象必须实现HashCode()方法，放入的对象，是以hashcode码作为标识的，而具有相同内容的 String对象，hashcode是一样，所以放入的内容不能重复。但是同一个类的对象可以放入不同的实例 。</p>
+<p>TreeMap 则是基于红黑树的一种提供顺序访问的 Map，和 HashMap 不同，它的 get、put、remove 之类操作都是 O（log(n)）的时间复杂度，具体顺序可以由指定的 Comparator 来决定，或者根据键的自然顺序来判断。</p>
+<h4 id="equals方法实现"><a href="#equals方法实现" class="headerlink" title="equals方法实现"></a>equals方法实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> Cat)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       Cat cat = (Cat)obj;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name.equals(cat.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h4><p>提到面向对象，随口都可以说出面向对象的四大特性：封装、抽象、继承、多态</p>
+<p>面向对象编程中有两个非常重要、非常基础的概念，那就是类（class）和对象（object）</p>
+<ul>
+<li>面向对象编程是一种编程范式或编程风格。它以类或对象作为组织代码的基本单元，并将封装、抽象、继承、多态四个特性，作为代码设计和实现的基石 。</li>
+<li>面向对象编程语言是支持类或对象的语法机制，并有现成的语法机制，能方便地实现面向对象编程四大特性（封装、抽象、继承、多态）的编程语言。</li>
+</ul>
+<h4 id="线程状态，BLOCKED和WAITING有什么区别"><a href="#线程状态，BLOCKED和WAITING有什么区别" class="headerlink" title="线程状态，BLOCKED和WAITING有什么区别"></a>线程状态，BLOCKED和WAITING有什么区别</h4><p><strong>线程处于BLOCKED状态的场景</strong>。</p>
+<p>当前线程在等待一个monitor lock，比如等待执行synchronized代码块或者使用synchronized标记的方法。<br>在synchronized块中循环调用Object类型的wait方法，如下是样例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(<span class="keyword">this</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">while</span> (flag)</span><br><span class="line">&#123;</span><br><span class="line">obj.wait();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// some other code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>WAITING状态</strong><br>线程处于WAITING状态的场景。</p>
+<p>调用Object对象的wait方法，但没有指定超时值。<br>调用Thread对象的join方法，但没有指定超时值。<br>调用LockSupport对象的park方法。<br>提到WAITING状态，顺便提一下TIMED_WAITING状态的场景。</p>
+<p><strong>TIMED_WAITING状态</strong><br>线程处于TIMED_WAITING状态的场景。</p>
+<p>调用Thread.sleep方法。<br>调用Object对象的wait方法，指定超时值。<br>调用Thread对象的join方法，指定超时值。<br>调用LockSupport对象的parkNanos方法。<br>调用LockSupport对象的parkUntil方法。</p>
+<h4 id="JVM如何加载字节码文件"><a href="#JVM如何加载字节码文件" class="headerlink" title="JVM如何加载字节码文件"></a>JVM如何加载字节码文件</h4><p><strong>加载</strong></p>
+<p>加载是指查找字节流，并且据此创建类的过程。加载需要借助类加载器，在 Java 虚拟机中，类加载器使用了双亲委派模型，即接收到加载请求时，会先将请求转发给父类加载器。</p>
+<p><strong>链接</strong></p>
+<p>链接，是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。链接还分验证、准备和解析三个阶段。其中，解析阶段为非必须的。</p>
+<p><strong>初始化</strong></p>
+<p>初始化，则是为标记为常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。类的初始化仅会被执行一次，这个特性被用来实现单例的延迟初始化。</p>
+<h4 id="JVM-GC，GC算法。"><a href="#JVM-GC，GC算法。" class="headerlink" title="JVM GC，GC算法。"></a>JVM GC，GC算法。</h4><p>垃圾回收，顾名思义是将已经分配出去的但不再使用的内存回收起来以便再次分配，此处的垃圾指的是死亡的对象占据的空间，大体分为两个步骤 : 先标记哪些对象已死亡，再进行垃圾回收</p>
+<h5 id="判断对象是否死亡x"><a href="#判断对象是否死亡x" class="headerlink" title="判断对象是否死亡x`"></a>判断对象是否死亡x`</h5><h6 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h6><p>为每个对象添加一个引用计数器，用来统计指向该对象的引用个数，一旦某个对象的引用计数器为0，则说明该对象已死亡，可以回收了</p>
+<h6 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h6><p>目前 <strong>Java 虚拟机的主流垃圾回收器采取的是可达性分析算法</strong>。这个算法的实质在于将一系列 GC Roots 作为初始的存活对象合集（live set），然后从该合集出发，探索所有能够被该集合引用到的对象，并将其加入到该集合中，这个过程我们也称之为标记（mark）。最终，未被探索到的对象便是死亡的，是可以回收的。</p>
+<h5 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h5><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576112958474.png" alt="1576112958474"></p>
+<h6 id="清除（sweep）"><a href="#清除（sweep）" class="headerlink" title="清除（sweep）"></a>清除（sweep）</h6><p>把死亡对象所占据的内存标记为空闲内存，并记录在一个空闲列表（free list）之中。当需要新建对象时，内存管理模块便会从该空闲列表中寻找空闲内存，并划分给新建的对象。</p>
+<p>清除这种回收方式的原理及其简单，但是有两个缺点。一是会造成内存碎片。由于 Java 虚拟机的堆中对象必须是连续分布的，因此可能出现总空闲内存足够，但是无法分配的极端情况。</p>
+<h6 id="复制（copy）"><a href="#复制（copy）" class="headerlink" title="复制（copy）"></a>复制（copy）</h6><p>把内存区域分为两等分，分别用两个指针 from 和 to 来维护，并且只是用 from 指针指向的内存区域来分配内存。当发生垃圾回收时，便把存活的对象复制到 to 指针指向的内存区域中，并且交换 from 指针和 to 指针的内容。</p>
+<p>这种算法虽然实现简单，内存效率高，不易产生碎片，但是最大的问题是可用内存被压缩到了原本的一半。且存活对象增多的话，copy 算法的效率会大大降低。 </p>
+<h6 id="压缩-整理（compact）"><a href="#压缩-整理（compact）" class="headerlink" title="压缩/整理（compact）"></a>压缩/整理（compact）</h6><p>把存活的对象聚集到内存区域的起始位置，从而留下一段连续的内存空间。这种做法能够解决内存碎片化的问题，但代价是压缩算法的性能开销。</p>
+<h6 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h6><p>清除、复制、压缩算法都有各自的优缺点 ，所以</p>
+<h5 id="minor-gc是否会导致stop-the-world？major-gc什么时候会发生，它和full-gc的区别是什么？"><a href="#minor-gc是否会导致stop-the-world？major-gc什么时候会发生，它和full-gc的区别是什么？" class="headerlink" title="minor gc是否会导致stop the world？major gc什么时候会发生，它和full gc的区别是什么？"></a>minor gc是否会导致stop the world？major gc什么时候会发生，它和full gc的区别是什么？</h5><p>  1、不管什么GC，都会发送stop the world，区别是发生的时间长短。而这个时间跟垃圾收集器又有关系，Serial、PartNew、Parallel Scavenge收集器无论是串行还是并行，都会挂起用户线程，而CMS和G1在并发标记时，是不会挂起用户线程，但其他时候一样会挂起用户线程，stop the world的时间相对来说小很多了。</p>
+<p>2、major gc很多参考资料指的是等价于full gc，我们也可以发现很多性能监测工具中只有minor gc和full gc。<br>一般情况下，一次full gc将会对年轻代、老年代以及元空间、堆外内存进行垃圾回收。而触发Full GC的原因有很多：<br>a、当年轻代晋升到老年代的对象大小比目前老年代剩余的空间大小还要大时，此时会触发Full GC；<br>b、当老年代的空间使用率超过某阈值时，此时会触发Full GC;<br>c、当元空间不足时（JDK1.7永久代不足），也会触发Full GC;<br>d、当调用System.gc()也会安排一次Full GC;  </p>
+<h4 id="什么情况会出现Full-GC，什么情况会出现yong-GC。"><a href="#什么情况会出现Full-GC，什么情况会出现yong-GC。" class="headerlink" title="什么情况会出现Full GC，什么情况会出现yong GC。"></a>什么情况会出现Full GC，什么情况会出现yong GC。</h4><p>通常情况下，由于新生代空间较小，Eden 区很快被填满，就会导致频繁 Minor GC，</p>
+<p>由于堆内存空间不足或老年代对象太多，会触发 Full GC</p>
+<h4 id="如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？"><a href="#如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？" class="headerlink" title="如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？"></a>如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？</h4><p> 不会立即释放对象占用的内存。   如果对象的引用被置为null，只是断开了当前线程栈帧中对该对象的引用关系，而   垃圾收集器是运行在后台的线程，只有当用户线程运行到安全点(safe point)或者安全区域才会扫描对象引用关系，扫描到对象没有被引用则会标记对象，这时候仍然不会立即释放该对象内存，因为有些对象是可恢复的（在   finalize方法中恢复引用   ）。只有确定了对象无法恢复引用的时候才会清除对象内存。  </p>
+<h4 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576076580679.png" alt="1576076580679"></p>
+<p><strong>本地方法栈：</strong></p>
+<p>带有native关键字的方法称为本地方法，说明java的作用范围到达不了，会进入本地方法栈，通过JNI调用本地方法接口，而JNI的作用就是为了扩展java的使用，融合不同的编程语言为java所用，java诞生之初正是C/C++横行的时候，为了立足不得已为之，因此专门在内存中开辟了一块标记区域 ，native method stack，登记native方法</p>
+<p>通常方法区中有静态常量池和运行时常量池，静态常量池主要存储的是字面量以及符号引用等信息，而运行时常量池存储的是类运行加载时生成的直接引用等信息。静态常量池也包括了我们说的字符串常量池。</p>
+<blockquote>
+<p>字面量包括字符串（String a=“b”）、基本类型的常量（final 修饰的变量），符号引用则包括类和方法的全限定名（例如 String 这个类，它的全限定名就是 Java/lang/String）、字段的名称和描述符以及方法的名称和描述符。</p>
+</blockquote>
+<p><strong>栈管运行，堆管存储</strong><br>栈：8大基本类型+引用+实例方法<br>方法区：静态变量+常量+类信息+常量池</p>
+<h4 id="Java运行时数据区"><a href="#Java运行时数据区" class="headerlink" title="Java运行时数据区"></a>Java运行时数据区</h4><p>同上</p>
+<h4 id="事务的实现原理"><a href="#事务的实现原理" class="headerlink" title="事务的实现原理"></a>事务的实现原理</h4><h3 id="技术深度"><a href="#技术深度" class="headerlink" title="技术深度"></a>技术深度</h3><h4 id="有没有看过JDK源码，看过的类实现原理是什么。"><a href="#有没有看过JDK源码，看过的类实现原理是什么。" class="headerlink" title="有没有看过JDK源码，看过的类实现原理是什么。"></a>有没有看过JDK源码，看过的类实现原理是什么。</h4><p>String、HashMap…</p>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><p>HTTP 是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范</p>
+<h4 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h4><p>TCP 协议是“Transmission Control Protocol”的缩写，意思是“传输控制协议”，它位于 IP 协议之上，基于 IP 协议提供可靠的、字节流形式的通信，是 HTTP 协议得以实现的基础。<br>“可靠”是指保证数据不丢失，“字节流”是指保证数据完整，所以在 TCP 协议的两端可以如同操作文件一样访问传输的数据，就像是读写在一个密闭的管道里“流动”的字节。</p>
+<h4 id="一致性Hash算法"><a href="#一致性Hash算法" class="headerlink" title="一致性Hash算法"></a>一致性Hash算法</h4><p><a href="https://blog.csdn.net/bntX2jSQfEHy7/article/details/79549368" target="_blank" rel="noopener">https://blog.csdn.net/bntX2jSQfEHy7/article/details/79549368</a></p>
+<h4 id="JVM如何加载字节码文件-1"><a href="#JVM如何加载字节码文件-1" class="headerlink" title="JVM如何加载字节码文件"></a>JVM如何加载字节码文件</h4><h4 id="类加载器如何卸载字节码"><a href="#类加载器如何卸载字节码" class="headerlink" title="类加载器如何卸载字节码"></a>类加载器如何卸载字节码</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576138154595.png" alt="1576138154595"></p>
+<p>在类使用完之后，满足下面的情形，会被卸载：</p>
+<ol>
+<li><p>该类在堆中的所有实例都已被回收，即在堆中不存在该类的实例对象。</p>
+</li>
+<li><p>加载该类的classLoader已经被回收。</p>
+</li>
+<li><p>该类对应的Class对象没有任何地方可以被引用，通过反射访问不到该Class对象。</p>
+<p>如果类满足卸载条件，JVM就在GC的时候，对类进行卸载，即在方法区清除类的信息。</p>
+</li>
+</ol>
+<h4 id="IO和NIO的区别，NIO优点"><a href="#IO和NIO的区别，NIO优点" class="headerlink" title="IO和NIO的区别，NIO优点"></a>IO和NIO的区别，NIO优点</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576221639996.png" alt="1576221639996"></p>
+<p>Java IO 方式有很多种，基于不同的 IO 抽象模型和交互方式，可以进行简单区分</p>
+<p>首先，传统的 java.io 包，它基于流模型实现，提供了我们最熟知的一些 IO 功能，比如 File 抽象、输入输出流等。交互方式是同步、阻塞的方式，也就是说，在读取输入流或者写入输出流时，在读、写动作完成之前，线程会一直阻塞在那里，它们之间的调用是可靠的线性顺序。BIO(blocking IO)</p>
+<p>java.io 包的好处是代码比较简单、直观，缺点则是 IO 效率和扩展性存在局限性，容易成为应用性能的瓶颈。很多时候，人们也把 java.net 下面提供的部分网络 API，比如 Socket、ServerSocket、HttpURLConnection 也归类到同步阻塞 IO 类库，因为网络通信同样是 IO 行为。</p>
+<p>第二，在 Java  1.4 中引入了 NIO 框架（java.nio 包），提供了 Channel、Selector、Buffer 等新的抽象，可以构建多路复用的、同步非阻塞 IO 程序，同时提供了更接近操作系统底层的高性能数据操作方式。</p>
+<p>第三，在 Java 7 中，NIO 有了进一步的改进，也就是 NIO 2，引入了异步非阻塞 IO 方式，也有很多人叫它 AIO（Asynchronous IO）。异步 IO 操作基于事件和回调机制，可以简单理解为，应用操作直接返回，而不会阻塞在那里，当后台处理完成，操作系统会通知相应线程进行后续工作。</p>
+<blockquote>
+<p><strong>这里“多路”指的是多个网络连接，“复用”指的是复用同一个线程</strong></p>
+</blockquote>
+<p>IO 都是同步阻塞模式，所以需要多线程以实现多任务处理。而 NIO 则是利用了单线程轮询事件的机制，通过高效地定位就绪的 Channel，来决定做什么，仅仅 select 阶段是阻塞的，可以有效避免大量客户端连接时，频繁线程切换带来的问题，应用的扩展能力有了非常大的提高</p>
+<p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576224285541.png" alt="1576224285541"></p>
+<h4 id="Java线程池的实现原理，keepAliveTime等参数的作用。"><a href="#Java线程池的实现原理，keepAliveTime等参数的作用。" class="headerlink" title="Java线程池的实现原理，keepAliveTime等参数的作用。"></a>Java线程池的实现原理，keepAliveTime等参数的作用。</h4><p>在 HotSpot VM 的线程模型中，Java 线程被一对一映射为内核线程。Java 在使用线程执行程序时，需要创建一个内核线程；当该 Java 线程被终止时，这个内核线程也会被回收。因此 Java 线程的创建与销毁将会消耗一定的计算机资源，从而增加系统的性能开销。</p>
+<p>除此之外，大量创建线程同样会给系统带来性能问题，因为内存和 CPU 资源都将被线程抢占，如果处理不当，就会发生内存溢出、CPU 使用率超负荷等问题。</p>
+<p>为了解决上述两类问题，Java 提供了线程池概念，对于频繁创建线程的业务场景，线程池可以创建固定的线程数量，并且在操作系统底层，轻量级进程将会把这些线程映射到内核。</p>
+<p>线程池可以提高线程复用，又可以固定最大线程使用量，防止无限制地创建线程。当程序提交一个任务需要一个线程时，会去线程池中查找是否有空闲的线程，若有，则直接使用线程池中的线程工作，若没有，会去判断当前已创建的线程数量是否超过最大线程数量，如未超过，则创建新线程，如已超过，则进行排队等待或者直接抛出异常。</p>
+<h4 id="HTTP连接池实现原理"><a href="#HTTP连接池实现原理" class="headerlink" title="HTTP连接池实现原理"></a>HTTP连接池实现原理</h4><h4 id="数据库连接池实现原理"><a href="#数据库连接池实现原理" class="headerlink" title="数据库连接池实现原理"></a>数据库连接池实现原理</h4><p>数据库连接池的基本思想就是为数据库连接建立一个“缓冲池”。预先在缓冲池中放入一定数量的连接，当需要建立数据库连接时，只需从“缓冲池”中取出一个，使用完毕之后再放回去。我们可以通过设定连接池最大连接数来防止系统无尽的与数据库连接。更为重要的是我们可以通过连接池的管理机制监视数据库的连接的数量﹑使用情况，为系统开发﹑测试及性能调整提供依据。</p>
+<h4 id="数据库的实现原理"><a href="#数据库的实现原理" class="headerlink" title="数据库的实现原理"></a>数据库的实现原理</h4><p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576218633498.png" alt="1576218633498"></p>
+<p>mysql 8 去除了 查询缓存</p>
+<p><strong>连接器</strong>负责跟客户端建立连接、获取权限、维持和管理连接，建立连接的过程通常是比较复杂的，所以我建议你在使用中要尽量减少建立连接的动作，也就是尽量使用长连接。</p>
+<blockquote>
+<p>但是全部使用长连接后，你可能会发现，有些时候 MySQL 占用内存涨得特别快，这是因为 MySQL 在执行过程中临时使用的内存是管理在连接对象里面的。这些资源会在连接断开的时候才释放。所以如果长连接累积下来，可能导致内存占用太大，被系统强行杀掉（OOM），从现象看就是 MySQL 异常重启了。</p>
+</blockquote>
+<p>连接建立完成后，你就可以执行 select 语句了。执行逻辑就会来到第二步：<strong>查询缓存</strong>。之前执行过的语句及其结果可能会以key-value的形式被直接缓存在内存中，如果查询到结果直接返回给客户端，否则继续后面步骤..</p>
+<p>如果没有命中查询缓存，就要开始真正执行语句了。首先，MySQL 需要知道你要做什么，因此需要对 SQL 语句做解析。先是<strong>词法分析</strong>，比如把一条SQL语句中的关键字、表名、列识别出来，然后进行<strong>语法分析</strong>，判断你输入的这个 SQL 语句是否满足 MySQL 语法。</p>
+<p>经过了分析器，MySQL 就知道你要做什么了。在开始执行之前，还要先经过<strong>优化器</strong>的处理。优化器是在表里面有多个索引的时候，决定使用哪个索引；或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
+<p>MySQL 通过分析器知道了你要做什么，通过优化器知道了该怎么做，于是就进入了<strong>执行器</strong>阶段，开始执行语句。</p>
+<blockquote>
+<p>开始执行的时候，要先判断一下你对这个表 T 有没有执行查询的权限，如果没有，就会返回没有权限的错误，如下所示 (在工程实现上，如果命中查询缓存，会在查询缓存返回结果的时候，做权限验证。查询也会在优化器之前调用 precheck 验证权限)。如果有权限，就打开表继续执行。打开表的时候，执行器就会根据表的引擎定义，去使用这个引擎提供的接口。</p>
+</blockquote>
+<h3 id="技术框架"><a href="#技术框架" class="headerlink" title="技术框架"></a>技术框架</h3><h4 id="看过哪些开源框架的源码"><a href="#看过哪些开源框架的源码" class="headerlink" title="看过哪些开源框架的源码"></a>看过哪些开源框架的源码</h4><p>SpringBoot、mybatis、Spring….</p>
+<h4 id="为什么要用Redis，Redis有哪些优缺点？Redis如何实现扩容？"><a href="#为什么要用Redis，Redis有哪些优缺点？Redis如何实现扩容？" class="headerlink" title="为什么要用Redis，Redis有哪些优缺点？Redis如何实现扩容？"></a>为什么要用Redis，Redis有哪些优缺点？Redis如何实现扩容？</h4><p>Redis是一个开源的内存中的数据结构存储系统，它可以用作：<strong>数据库、缓存和消息中间件</strong>。</p>
+<p>它支持多种类型的数据结构，如字符串（Strings），散列（Hash），列表（List），集合（Set），有序集合（Sorted Set或者是ZSet）与范围查询，Bitmaps，Hyperloglogs 和地理空间（Geospatial）索引半径查询。<strong>其中常见的数据结构类型有：String、List、Set、Hash、ZSet这5种。</strong></p>
+<p>Redis 内置了复制（Replication），LUA脚本（Lua scripting）， LRU驱动事件（LRU eviction），事务（Transactions） 和不同级别的磁盘持久化（Persistence），并通过 Redis哨兵（Sentinel）和自动分区（Cluster）提供高可用性（High Availability）。</p>
+<h4 id="Netty是如何使用线程池的，为什么这么使用"><a href="#Netty是如何使用线程池的，为什么这么使用" class="headerlink" title="Netty是如何使用线程池的，为什么这么使用"></a>Netty是如何使用线程池的，为什么这么使用</h4><h4 id="为什么要使用Spring，Spring的优缺点有哪些"><a href="#为什么要使用Spring，Spring的优缺点有哪些" class="headerlink" title="为什么要使用Spring，Spring的优缺点有哪些"></a>为什么要使用Spring，Spring的优缺点有哪些</h4><p>spring是分层的 JavaEE 应用轻量级开源框架，以IOC和AOP为内核，提供了表现层和持久层以及业务层事务管理等众多企业级应用技术，还能整合众多的第三方框架和类库，现在是使用最多的JavaEE企业应用开源框架</p>
+<p>缺点就是jar包版本的问题</p>
+<h4 id="Spring下的注解？"><a href="#Spring下的注解？" class="headerlink" title="Spring下的注解？"></a><strong>Spring下的注解？</strong></h4><p>用于创建对象的：Component、Repository、Service、Controller<br>用于注入数据的：Autowired、Qualifier(和Autowired一起使用，指定bean名称)、Resource(name=”beanId”)<br>如果是基本类型和String类型用: Value<br>用于改变bean作用范围的：Scope(value=”singleton”)<br>和生命周期相关的：《了解》</p>
+<h4 id="Spring的IOC容器初始化流程"><a href="#Spring的IOC容器初始化流程" class="headerlink" title="Spring的IOC容器初始化流程"></a>Spring的IOC容器初始化流程</h4><p>加载配置文件</p>
+<p>控制反转(IOC)是一种设计思想，DI是实现IOC的一种方法，也有人认为DI只是IoC的另一种说法，没有IoC的程序中，我们使用面向对象编程，对象的创建与对象间的依赖关系完全硬编码在程序中，对象的创建由程序自己控制，而控制反转后将对象的创建转移给第三方，个人认为所谓的控制反转就是：获得依赖对象的方式反转了</p>
+<p><img src="/2019/11/26/java-interview/myblog\source\_posts\java-interview\5C1576229025635.png" alt="1576229025635"></p>
+<h4 id="Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean"><a href="#Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean" class="headerlink" title="Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean"></a>Spring的IOC容器实现原理，为什么可以通过byName和ByType找到Bean</h4><h4 id="Spring-AOP实现原理"><a href="#Spring-AOP实现原理" class="headerlink" title="Spring AOP实现原理"></a>Spring AOP实现原理</h4><p>通俗的讲，就是利用动态代理技术，在不修改原有代码的基础上对原有方法增强</p>
+<h4 id="消息中间件是如何实现的，技术难点有哪些"><a href="#消息中间件是如何实现的，技术难点有哪些" class="headerlink" title="消息中间件是如何实现的，技术难点有哪些"></a>消息中间件是如何实现的，技术难点有哪些</h4><h3 id="Mybatis面试题"><a href="#Mybatis面试题" class="headerlink" title="Mybatis面试题"></a><strong>Mybatis面试题</strong></h3><h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><p>#{}是预编译处理，${}是字符串替换。<br>Mybatis在处理#{}时，会将sql中的#{}替换为?号(即占位符)，调用PreparedStatement的set方法来赋值；</p>
+<p>Mybatis在处理时，就是把{}时，就是把时，就是把{}替换成变量的值(调用set/get方法)。</p>
+<p>使用#{}可以有效的防止SQL注入，提高系统安全性。</p>
+<h4 id="MyBatis与Hibernate有哪些不同？"><a href="#MyBatis与Hibernate有哪些不同？" class="headerlink" title="MyBatis与Hibernate有哪些不同？"></a>MyBatis与Hibernate有哪些不同？</h4><p>1）Mybatis和hibernate不同，它不完全是一个ORM框架，因为MyBatis需要程序员自己编写Sql语句，不过mybatis可以通过XML或注解方式灵活配置要运行的sql语句，并将java对象和sql语句映射生成最终执行的sql，最后将sql执行的结果再映射生成java对象。</p>
+<p>2）Mybatis学习门槛低，简单易学，程序员直接编写原生态sql，可严格控制sql执行性能，灵活度高，非常适合对关系数据模型要求不高的软件开发，例如互联网软件、企业运营类软件等，因为这类软件需求变化频繁，一但需求变化要求成果输出迅速。但是灵活的前提是mybatis无法做到数据库无关性，如果需要实现支持多种数据库的软件则需要自定义多套sql映射文件，工作量大。</p>
+<p>3）Hibernate对象/关系映射能力强，数据库无关性好，对于关系模型要求高的软件（例如需求固定的定制化软件）如果用hibernate开发可以节省很多代码，提高效率。但是Hibernate的缺点是学习门槛高，要精通门槛更高，而且怎么设计O/R映射，在性能和对象模型之间如何权衡，以及怎样用好Hibernate需要具有很强的经验和能力才行。</p>
+<h4 id="什么是MyBatis的接口绑定？有哪些实现方式？"><a href="#什么是MyBatis的接口绑定？有哪些实现方式？" class="headerlink" title="什么是MyBatis的接口绑定？有哪些实现方式？"></a>什么是MyBatis的接口绑定？有哪些实现方式？</h4><p>通俗的讲就是那个 mapper，把接口里面的方法和 sql 绑定，我们直接调用接口方法就可以。</p>
+<p>接口绑定有两种实现方式，一种是接口的方法上面加上 @Select、@Update等注解，里面包含Sql语句来绑定</p>
+<p>另外一种就是通过xml里面写SQL来绑定，在这种情况下，要指定xml映射文件里面的namespace必须为接口的全路径名。</p>
+<h4 id="什么情况用注解，什么情况用xml绑定？"><a href="#什么情况用注解，什么情况用xml绑定？" class="headerlink" title="什么情况用注解，什么情况用xml绑定？"></a><strong>什么情况用注解，什么情况用xml绑定？</strong></h4><p>没有规定只能用一种，你可以两种一起上，当Sql语句比较简单时候,用注解绑定, 当SQL语句比较复杂时候,用xml绑定,一般用xml绑定的比较多。</p>
+<h4 id="如何执行批量插入"><a href="#如何执行批量插入" class="headerlink" title="如何执行批量插入?"></a>如何执行批量插入?</h4><ul>
+<li><p>java 代码使用 for 循环调用 insert 方法 ，可以应付大多数情况，在量不是很大的情况 缺点是没有事务管理，且消耗链接 性能低</p>
+</li>
+<li><p>采用 mysql 语法，在 xml 中写 foreach，传入一个集合</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertList"</span> <span class="attr">parameterType</span>=<span class="string">"java.util.List"</span> <span class="attr">useGeneratedKeys</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">        INSERT INTO user( O, WORK_DT) VALUES</span><br><span class="line">        <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"users"</span> <span class="attr">item</span>=<span class="string">"user"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">separator</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">			(</span><br><span class="line">            #&#123;user.name, jdbcType=VARCHAR&#125;, </span><br><span class="line">            #&#123;user.sex, jdbcType=VARCHAR&#125;</span><br><span class="line">            )</span><br><span class="line">        <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">         SELECT 1 FROM DUAL</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>采用批处理器处理 (最好的方式)，处理特殊情况、两大的情况，建议这么处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意这里 executortype.batch   获取到了批处理器</span></span><br><span class="line">Sqlsession sqlsession = sqlsessionfactory.openSession(Executortype.batch);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    namemapper mapper = sqlsession.getmapper(namemapper.class);</span><br><span class="line"><span class="keyword">for</span> (string name : names) &#123;</span><br><span class="line">	mapper.insertname(name);</span><br><span class="line">&#125;</span><br><span class="line">   sqlsession.commit(); <span class="comment">//提交批处理事务</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">	sqlSession.rollback(); <span class="comment">//回滚</span></span><br><span class="line">    <span class="keyword">throw</span> e;</span><br><span class="line"> &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    sqlsession.close(); <span class="comment">//关闭sesson</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Mybatis是如何进行分页的？分页插件的原理是什么？"><a href="#Mybatis是如何进行分页的？分页插件的原理是什么？" class="headerlink" title="Mybatis是如何进行分页的？分页插件的原理是什么？"></a>Mybatis是如何进行分页的？分页插件的原理是什么？</h4><p>Mybatis 使用 RowBounds 对象进行分页，它是针对 ResultSet 结果集执行的内存分页，而非物理分页，可以在 sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。</p>
+<p>分页插件的基本原理是使用 Mybatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写 sql，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。</p>
+<h4 id="如何获取自动生成的-主-键值"><a href="#如何获取自动生成的-主-键值" class="headerlink" title="如何获取自动生成的(主)键值?"></a>如何获取自动生成的(主)键值?</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertUser"</span> <span class="attr">parameterType</span>=<span class="string">"user"</span> <span class="attr">useGeneratedKeys</span>=<span class="string">"true"</span> <span class="attr">keyProperty</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">    insert into user values(#&#123;user.name&#125;,#&#123;user.sex&#125;,#&#123;user.age&#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>useGeneratedKeys true，需要你表主键自动增长</p>
+<p>keyProperty id，主键名称为id</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User user = <span class="keyword">new</span> User();</span><br><span class="line">user.setXxxxxx(xxxxxx); <span class="comment">////给属性设值</span></span><br><span class="line">userMapper.insertUser(user);</span><br><span class="line"></span><br><span class="line"><span class="comment">//user.getId()就可以获取到自增主键了</span></span><br><span class="line">BigInteger id = user.getId();</span><br></pre></td></tr></table></figure>
+<h4 id="在mapper中如何传递多个参数"><a href="#在mapper中如何传递多个参数" class="headerlink" title="在mapper中如何传递多个参数?"></a><strong>在mapper中如何传递多个参数?</strong></h4><p>第一种：xml里取值按照顺序取 比如#{0} #{1} 极力不推荐<br>第二种：多个参数封装成map 这个还行，但是也不太推荐<br>第三种：使用@param注解 推荐使用<br>第四种：使用对象传值 推荐使用</p>
+<h4 id="实体类中的属性名和表中的字段名不一样-，怎么办-？"><a href="#实体类中的属性名和表中的字段名不一样-，怎么办-？" class="headerlink" title="实体类中的属性名和表中的字段名不一样 ，怎么办 ？"></a>实体类中的属性名和表中的字段名不一样 ，怎么办 ？</h4><ul>
+<li><p>通过在查询的sql语句中定义字段名的别名，让字段名的别名和实体类的属性名一致</p>
+</li>
+<li><p>通过<resultmap>来映射字段名和实体类属性名的一一对应的关系</resultmap></p>
+</li>
+</ul>
+<h4 id="Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？"><a href="#Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？" class="headerlink" title="Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？"></a>Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？</h4><p>Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写动态sql，完成逻辑判断和动态拼接sql的功能。<br>Mybatis提供了9种动态sql标签trim|where|set|foreach|if|choose|when|otherwise|bind。</p>
+<p>其执行原理为，使用OGNL从sql参数对象中计算表达式的值，根据表达式的值动态拼接sql，以此来完成动态sql的功能。</p>
+<h3 id="分布式-微服务"><a href="#分布式-微服务" class="headerlink" title="分布式+微服务"></a><strong>分布式+微服务</strong></h3><h4 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a><strong>CAP理论</strong></h4><p>C 一致性<br>A 可用性<br>P 分区容错性  比如把一个单体应用拆分成多个微服务/分布式架构</p>
+<h4 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a><strong>BASE理论</strong></h4><h4 id="接口的幂等性问题"><a href="#接口的幂等性问题" class="headerlink" title="接口的幂等性问题"></a><strong>接口的幂等性问题</strong></h4><p>多次请求返回的结果都是一样的</p>
+<h4 id="消息中间件如何解决消息丢失问题"><a href="#消息中间件如何解决消息丢失问题" class="headerlink" title="消息中间件如何解决消息丢失问题"></a><strong>消息中间件如何解决消息丢失问题</strong></h4><p><strong>生产者没有成功把消息发送到MQ</strong></p>
+<ul>
+<li><p><strong>事务机制</strong></p>
+<p>RabbitMQ 提供了事务功能，生产者发送数据之前开启 RabbitMQ 事务channel.txSelect，然后发送消息，如果消息没有被 RabbitMQ 接收到，那么生产者会收到异常报错，此时就可以回滚事务channel.txRollback，然后重试发送消息；如果收到了消息，那么可以提交事务channel.txCommit。伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开启事务</span></span><br><span class="line">channel.txSelect</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 这里发送消息</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    channel.txRollback</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 这里再次重发这条消息</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 提交事务</span></span><br><span class="line">channel.txCommit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>confirm机制</strong></p>
+<p> RabbitMQ可以开启 confirm 模式，在生产者那里设置开启 confirm 模式之后，生产者每次写的消息都会分配一个唯一的 id，如果消息成功写入 RabbitMQ 中，RabbitMQ 会给生产者回传一个 ack 消息，告诉你说这个消息 ok 了。如果 RabbitMQ 没能处理这个消息，会回调你的一个 nack 接口，告诉你这个消息接收失败，生产者可以发送。而且你可以结合这个机制自己在内存里维护每个消息 id 的状态，如果超过一定时间还没接收到这个消息的回调，那么可以重发。</p>
+<blockquote>
+<p><strong>RabbitMQ的事务机制是同步的，很耗型能，会降低RabbitMQ的吞吐量。confirm机制是异步的，生成者发送完一个消息之后，不需要等待RabbitMQ的回调，就可以发送下一个消息，当RabbitMQ成功接收到消息之后会自动异步的回调生产者的一个接口返回成功与否的消息。</strong></p>
+</blockquote>
+</li>
+</ul>
+<p><strong>RabbitMQ接收到消息之后丢失了消息</strong></p>
+<p>a、丢失的原因：RabbitMQ 接收到生产者发送过来的消息，是存在内存中的，如果没有被消费完，此时RabbitMQ宕机了，那么再次启动的时候，原来内存中的那些消息都丢失了。</p>
+<p>b、解决办法：开启RabbitMQ的持久化。当生产者把消息成功写入RabbitMQ之后，RabbitMQ就把消息持久化到磁盘。结合上面的说到的confirm机制，只有当消息成功持久化磁盘之后，才会回调生产者的接口返回ack消息，否则都算失败，生产者会重新发送。存入磁盘的消息不会丢失，就算RabbitMQ挂掉了，重启之后，他会读取磁盘中的消息，不会导致消息的丢失。</p>
+<p>c、持久化的配置：</p>
+<p>第一点是创建 queue 的时候将其设置为持久化，这样就可以保证 RabbitMQ 持久化 queue 的元数据，但是它是不会持久化 queue 里的数据的。<br>第二个是发送消息的时候将消息的 deliveryMode 设置为 2，就是将消息设置为持久化的，此时 RabbitMQ 就会将消息持久化到磁盘上去。</p>
+<blockquote>
+<p>持久化要起作用必须同时设置这两个持久化才行，RabbitMQ 哪怕是挂了，再次重启，也会从磁盘上重启恢复 queue，恢复这个 queue 里的数据。</p>
+</blockquote>
+<h4 id="Dubbo的服务请求失败怎么处理"><a href="#Dubbo的服务请求失败怎么处理" class="headerlink" title="Dubbo的服务请求失败怎么处理"></a>Dubbo的服务请求失败怎么处理</h4><p>dubbo启动时默认有重试机制和超时机制。</p>
+<p>超时机制的规则是如果在一定的时间内，provider没有返回，则认为本次调用失败，</p>
+<p>重试机制在出现调用失败时，会再次调用。如果在配置的调用次数内都失败，则认为此次请求异常，抛出异常。</p>
+<h4 id="Dubbo支持哪些协议-Dubbo的默认协议是什么"><a href="#Dubbo支持哪些协议-Dubbo的默认协议是什么" class="headerlink" title="Dubbo支持哪些协议?Dubbo的默认协议是什么?"></a><strong>Dubbo支持哪些协议?Dubbo的默认协议是什么?</strong></h4><p>dubbo、Http</p>
+<h4 id="Redis的持久化方式有哪些-各有何利弊"><a href="#Redis的持久化方式有哪些-各有何利弊" class="headerlink" title="Redis的持久化方式有哪些?各有何利弊?"></a><strong>Redis的持久化方式有哪些?各有何利弊?</strong></h4><h3 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h3><ol>
+<li>如何搭建一个高可用系统</li>
+<li>哪些设计模式可以增加系统的可扩展性</li>
+<li>介绍设计模式，如模板模式，命令模式，策略模式，适配器模式、桥接模式、装饰模式，观察者模式，状态模式，访问者模式。</li>
+<li>抽象能力，怎么提高研发效率。</li>
+<li>什么是高内聚低耦合，请举例子如何实现</li>
+<li>什么情况用接口，什么情况用消息</li>
+<li>如果AB两个系统互相依赖，如何解除依赖</li>
+<li>如何写一篇设计文档，目录是什么</li>
+<li>什么场景应该拆分系统，什么场景应该合并系统</li>
+<li>系统和模块的区别，分别在什么场景下使用</li>
+</ol>
+<h3 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h3><ol>
+<li>分布式事务，两阶段提交。</li>
+<li>如何实现分布式锁</li>
+<li>如何实现分布式Session</li>
+<li>如何保证消息的一致性</li>
+<li>负载均衡</li>
+<li>正向代理（客户端代理）和反向代理（服务器端代理）</li>
+<li>CDN实现原理</li>
+<li>怎么提升系统的QPS和吞吐量</li>
+</ol>
+<h3 id="实战能力"><a href="#实战能力" class="headerlink" title="实战能力"></a>实战能力</h3><ol>
+<li>有没有处理过线上问题？出现内存泄露，CPU利用率标高，应用无响应时如何处理的。</li>
+<li>开发中有没有遇到什么技术问题？如何解决的</li>
+<li>如果有几十亿的白名单，每天白天需要高并发查询，晚上需要更新一次，如何设计这个功能。</li>
+<li>新浪微博是如何实现把微博推给订阅者</li>
+<li>Google是如何在一秒内把搜索结果返回给用户的。</li>
+<li>12306网站的订票系统如何实现，如何保证不会票不被超卖。</li>
+<li>如何实现一个秒杀系统，保证只有几位用户能买到某件商品。</li>
+</ol>
+<h3 id="软能力"><a href="#软能力" class="headerlink" title="软能力"></a>软能力</h3><ol>
+<li>如何学习一项新技术，比如如何学习Java的，重点学习什么</li>
+<li>有关注哪些新的技术</li>
+<li>工作任务非常多非常杂时如何处理</li>
+<li>项目出现延迟如何处理</li>
+<li>和同事的设计思路不一样怎么处理</li>
+<li>如何保证开发质量</li>
+<li>职业规划是什么？短期，长期目标是什么</li>
+<li>团队的规划是什么</li>
+<li>能介绍下从工作到现在自己的成长在那里</li>
+</ol>
+
+          <br>
+<p>hogen</p>
+<div class="date">2019-11-26</div>
+
+        </section>
+      </div>
+      
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+    <a class="main" href="https://github.com/hogenlaw">Github</a>
+  
+    <a class="main" href="mailto:lhg9300@foxmail.com">Email</a>
+  
+</div>
+
+    </div>
+    <footer>
+  <span class="muted">Powered by hogenlaw</span>
+</footer>
+
+  </body>
+</html>
